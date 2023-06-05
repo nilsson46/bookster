@@ -1,14 +1,22 @@
 <template>
     <div>
-        <h1>Bookster Header</h1>
+        <a href="http://localhost:5173/">Home</a>
+        <a href="http://localhost:5173/auth/login">Login</a>
+        <a href="http://localhost:5173/auth/register">Register</a>
     </div>
 </template>
 
 <style scoped>
 div{
     background-color: palevioletred;
+    height: 2rem;
     display: flex;
     justify-content: center;
-
+    justify-content: space-around;
 }
+
+a{
+    font-size: 1rem;
+}
+
 </style>
