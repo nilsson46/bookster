@@ -4,11 +4,11 @@
     </div>
 </template>
 
-<style>
+<style scoped>
 div{
     background-color: palevioletred;
     display: flex;
     justify-content: center;
-    
+
 }
 </style>

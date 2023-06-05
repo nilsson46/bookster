@@ -6,5 +6,6 @@ import NavBarItem from '@/components/NavBarItem.vue';
   
   <main>
     <NavBarItem/>
+    <h1></h1>
   </main>
 </template>
