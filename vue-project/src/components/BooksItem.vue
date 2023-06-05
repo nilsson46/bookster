@@ -1,26 +1,27 @@
-<script lang="ts">
-import axios from "axios";
-import { defineComponent } from "vue";
-
-export default defineComponent({
-    mounted(){
-        const URL = "http://localhost:3000/library/books"
-
-        axios.get(URL)
-        .then((response) => {
-            console.log(response.data);
-        })
-        .catch((error) =>{
-            console.log(error)
-        });
-    },
-
-});
-
-</script>
-
-<template>
+<template> 
     <div>
-        <BooksItem v-for="book in books" :key"book.id" :book="book"></BooksItem>
+        <h2> {{ book.title }}</h2>
+        <p> Author: {{ book.author }}</p>
+        <p> Quantity: {{ book.quantity }}</p>
     </div>
 </template>
+
+<script lang="ts">
+import {defineComponent, PropType} from 'vue';
+
+export default defineComponent ({
+    props:{
+        book: {
+            type: Object as PropType<Book>,
+            required: true
+        }
+    }
+});
+
+interface Book{
+    title: string;
+    author: string; 
+    quantity: number;
+}
+
+</script>

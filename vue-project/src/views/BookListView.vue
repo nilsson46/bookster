@@ -15,14 +15,50 @@ Ger statuskod 201 när en bok har uppdaterats.
 Ger statuskod 200 när en bok har tagits bort
 Ger statuskod 404 om boken inte hittades
 
-<template> 
+<template>
     <div>
-        <button @click="showBooks">
+        <div>
+            <button id="show-books-btn" @click="showBooks"> Show books </button>
+        </div>
 
-        </button>
+        <div>
+            <BooksItem v-for="book in books" :key="book.title" :book="book"/>
+        </div>
     </div>
 </template>
 
 <script lang="ts">
+
+import axios from 'axios';
+import { defineComponent, ref } from 'vue';
+import BooksItem from "../components/BooksItem.vue"
+
+export default defineComponent ({
+    components: {
+    BooksItem
+    },
+    setup(){
+        const books = ref([]);
+
+        const showBooks = () => {
+            const URL = "http://localhost:3000/library/books";
+            axios
+                .get(URL)
+                .then((response) => {
+                    console.log(response.data);
+                    books.value = response.data.books;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        };
+
+        return {
+            books,
+            showBooks
+        };
+    }
+});
+
 
 </script>
