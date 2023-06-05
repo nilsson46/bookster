@@ -4,6 +4,7 @@ import InputFieldItem from '@/components/InputFieldItem.vue';
 import NavBarItem from "@/components/NavBarItem.vue";
 
 //TODO handleLogin check with the users in the database and give a token. 
+//TODO should buttons be like this? 
 
 export default defineComponent({
     name:"LoginView",

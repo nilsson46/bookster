@@ -3,6 +3,8 @@ import { defineComponent } from 'vue';
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 
+//TODO handleRegister check so the username arent used.
+//TODO button here as well? 
 
 export default defineComponent({
     name: "RegisterView",
