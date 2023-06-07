@@ -1,10 +1,9 @@
 <template>
     <div>
-        <label> {{ label }}</label> 
-        <input v-model="value" :type="type" :placeholder="placeholder" @input="handleInput">
-        
+      <label>{{ label }}</label>
+      <input :type="type" :value="value" @input="$emit('update:value', $event.target.value)" />
     </div>
-</template>
+  </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
@@ -22,11 +21,6 @@ export default defineComponent({
         },
         placeholder: {
             default: "",
-        },
-    },
-    methods:{
-        handleInput(event: Event) {
-            this.$emit("input", (event.target as HTMLInputElement).value);
         },
     },
 });
