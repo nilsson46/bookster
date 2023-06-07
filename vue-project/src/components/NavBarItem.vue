@@ -3,6 +3,7 @@
         <a href="http://localhost:5173/">Home</a>
         <a href="http://localhost:5173/auth/login">Login</a>
         <a href="http://localhost:5173/auth/register">Register</a>
+        <a href="http://localhost:5173/library/books">Booklist</a>
     </div>
 </template>
 

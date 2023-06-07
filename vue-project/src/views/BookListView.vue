@@ -18,6 +18,10 @@ Ger statuskod 404 om boken inte hittades
 <template>
     <div>
         <div>
+            <input type="text" placeholder="Search for a book" v-model="searchInput">
+            <button @click="showSearchedBooks">Search</button>
+        </div>
+        <div>
             <button id="show-books-btn" @click="showBooks"> Show books </button>
         </div>
 
@@ -30,7 +34,7 @@ Ger statuskod 404 om boken inte hittades
 <script lang="ts">
 
 import axios from 'axios';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref,} from 'vue';
 import BooksItem from "../components/BooksItem.vue"
 
 export default defineComponent ({
@@ -39,6 +43,23 @@ export default defineComponent ({
     },
     setup(){
         const books = ref([]);
+        const searchInput = ref('');
+
+        const showSearchedBooks = () => {
+            const inputValue = searchInput.value.trim().toLowerCase();
+            const URL = `http://localhost:3000/library/books/search?q=${inputValue}`;
+            axios
+                 .get(URL)
+                 .then((response) => {
+                    console.log(inputValue);
+                    console.log(response.data.books);
+                    books.value = response.data.books;
+                 })
+
+                 .catch((error) => {
+                    console.log(error)
+                 })
+        }
 
         const showBooks = () => {
             const URL = "http://localhost:3000/library/books";
@@ -55,7 +76,9 @@ export default defineComponent ({
 
         return {
             books,
-            showBooks
+            showBooks,
+            showSearchedBooks,
+            searchInput,
         };
     }
 });

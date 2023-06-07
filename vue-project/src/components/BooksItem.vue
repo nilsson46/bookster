@@ -7,7 +7,14 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, PropType} from 'vue';
+import {defineComponent,} from 'vue';
+import type { PropType} from 'vue';
+
+interface Book{
+    title: string;
+    author: string; 
+    quantity: number;
+}
 
 export default defineComponent ({
     props:{
@@ -18,10 +25,6 @@ export default defineComponent ({
     }
 });
 
-interface Book{
-    title: string;
-    author: string; 
-    quantity: number;
-}
 
+ 
 </script>
