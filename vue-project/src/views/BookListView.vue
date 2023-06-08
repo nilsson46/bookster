@@ -7,25 +7,7 @@ Ger statuskod 201 när en bok har uppdaterats.
 Ger statuskod 200 när en bok har tagits bort
 Ger statuskod 404 om boken inte hittades
 
-<template>
-    <div>
-        <nav>
-            <NavBarItem/>
-        </nav>
-        <div>
-            <InputFieldItem
-        :value="searchInput"
-        @update:value="searchInput = $event"
-        :label="''"
-        :placeholder="'Search for a book'"/>
-            <button @click="showSearchedBooks">Search</button>
-        </div>
 
-        <div>
-            <BooksItem v-for="book in books" :key="book.title" :book="book"/>
-        </div>
-    </div>
-</template>
 
 <script lang="ts">
 
@@ -39,7 +21,7 @@ export default defineComponent ({
     components: {
     BooksItem,
     NavBarItem,
-    InputFieldItem
+    InputFieldItem,
 },
     setup(){
         const books = ref([]);
@@ -55,10 +37,6 @@ export default defineComponent ({
                     console.log(response.data.books);
                     books.value = response.data.books;
                  })
-
-                 
-                 
-
                  .catch((error) => {
                     console.log(error)
                  })
@@ -90,3 +68,70 @@ export default defineComponent ({
 
 
 </script>
+
+<template>
+    <div>
+        <nav>
+            <NavBarItem/>
+        </nav>
+        <div class="search-field">
+            <InputFieldItem
+        :value="searchInput"
+        @update:value="searchInput = $event"
+        :label="''"
+        :placeholder="'Search for a book'"/>
+            <button @click="showSearchedBooks">Search</button>
+        </div>
+
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Availability</th>
+                        <th>Order</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="book in books" :key="book.title">
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td class="quantity">{{ book.quantity }}</td>
+                    </tr>               
+                 </tbody>
+            </table>
+            
+        </div>
+    </div>
+</template>
+
+<style>
+input{
+    height: 2rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+.search-field{
+    width: 10rem;
+    margin-left: 5rem;
+}
+table{
+    width: 90%;
+    margin-left: 4rem;
+    margin-right: 4rem;
+}
+thead{
+    background-color: lightblue;
+    width: 100%;
+}
+.quantity{
+    display: flex;
+    justify-content: center;
+}
+
+th, td{
+    padding: 0.5rem;
+    background-color: rgb(183, 247, 247);
+}
+</style>
