@@ -2,6 +2,7 @@
 import { defineComponent } from 'vue';
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
+import axios from 'axios';
 
 //TODO handleRegister check so the username arent used.
 //TODO button here as well? 
@@ -11,8 +12,39 @@ export default defineComponent({
     components:{
         InputFieldItem,
         NavBarItem
+    },
+    data(){
+        return{
+            username: "",
+            password: "",
+        };
+    },
+    methods:{
+        async handleRegister(){
+            try{
+                const url = "http://localhost:3000/auth/register";
+                const data = {
+                    username: this.username,
+                    password: this.password,
+                };
+                console.log("Request URL:", url);
+                console.log("Request data:", JSON.stringify(data));
+                //TODO Check if the username already exist! 
+                if (this.username.trim() === "" || this.password.trim() === "") {
+                console.error("Username and password are required");
+                return; // Stop further execution
+                    }
+                    const response = await axios.post(url, data);
+                    console.log(response)
+
+                    this.$router.push("/library/books")
+                    console.log("Register succesfull")
+            }catch(error: any) {
+                console.error("Register error:", error.message)
+        }
     }
-})
+    }
+});
 
 </script>
 
@@ -21,9 +53,10 @@ export default defineComponent({
         <nav>
             <NavBarItem/>
         </nav>
-        <form action="">
-            <InputFieldItem/>
-            <button id="register-btn">Register</button>
+        <form @submit.prevent="handleRegister">
+            <InputFieldItem v-model:value="username" label="Username" type="text" />
+            <InputFieldItem v-model:value="password" label="Password" type="password"/>
+            <button id="register-btn" type="submit">Register</button>
         </form>
     </div>
 </template>

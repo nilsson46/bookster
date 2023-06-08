@@ -42,7 +42,7 @@ export default defineComponent({
 
                 this.$router.push("/library/books")
                 console.log("Authentication succesfull")
-            } catch(error) {
+            } catch(error: any) {
                 console.error("Authentication error:", error.message)
             }
         
@@ -57,8 +57,8 @@ export default defineComponent({
             <NavBarItem/>
         </nav>
         <form @submit.prevent="handleLogin">
-            <InputFieldItem v-model:value="username" label="Username" type="text" :value="username" />
-            <InputFieldItem v-model:value="password" label="Password" type="password" :value="password" />
+            <InputFieldItem v-model:value="username" label="Username" type="text" />
+            <InputFieldItem v-model:value="password" label="Password" type="password"/>
             <button id="login-btn" type="submit">Login</button>
         </form>
     </div>

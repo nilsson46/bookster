@@ -33,7 +33,6 @@ import { defineComponent, ref,} from 'vue';
 import BooksItem from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 
-
 export default defineComponent ({
     components: {
     BooksItem,

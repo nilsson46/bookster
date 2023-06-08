@@ -1,7 +1,7 @@
 <template>
     <div>
       <label>{{ label }}</label>
-      <input :type="type" :value="value" @input="$emit('update:value', $event.target.value)" />
+      <input :type="type" :value="value" @input="handleInput($event)" />
     </div>
   </template>
 
@@ -23,6 +23,15 @@ export default defineComponent({
             default: "",
         },
     },
+
+    methods:{
+        handleInput(event: Event){
+            const target = event.target as HTMLInputElement;
+            if(target){
+                this.$emit('update:value', target.value)
+            }
+        }
+    }
 });
 </script>
 
