@@ -4,8 +4,19 @@
         <a href="http://localhost:5173/auth/login">Login</a>
         <a href="http://localhost:5173/auth/register">Register</a>
         <a href="http://localhost:5173/library/books">Booklist</a>
+        <button @click="handleLogout">Logout</button>
     </div>
 </template>
+<script lang="ts">
+export default {
+    methods: {
+        handleLogout(){
+            localStorage.removeItem("accessToken");
+        }
+    }
+}
+
+</script>
 
 <style scoped>
 div{
