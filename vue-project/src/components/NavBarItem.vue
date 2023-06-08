@@ -14,7 +14,8 @@ export default {
     methods: {
         handleLogout(){
             localStorage.removeItem("accessToken");
-        }
+            this.$router.push("/")
+            }
     }
 }
 

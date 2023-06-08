@@ -13,11 +13,12 @@ Ger statuskod 404 om boken inte hittades
             <NavBarItem/>
         </nav>
         <div>
-            <input type="text" placeholder="Search for a book" v-model="searchInput">
+            <InputFieldItem
+        :value="searchInput"
+        @update:value="searchInput = $event"
+        :label="''"
+        :placeholder="'Search for a book'"/>
             <button @click="showSearchedBooks">Search</button>
-        </div>
-        <div>
-            <button id="show-books-btn" @click="showBooks"> Show books </button>
         </div>
 
         <div>
@@ -29,14 +30,16 @@ Ger statuskod 404 om boken inte hittades
 <script lang="ts">
 
 import axios from 'axios';
-import { defineComponent, ref,} from 'vue';
+import { defineComponent, ref, onMounted} from 'vue';
 import BooksItem from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
+import InputFieldItem from '@/components/InputFieldItem.vue';
 
 export default defineComponent ({
     components: {
     BooksItem,
-    NavBarItem
+    NavBarItem,
+    InputFieldItem
 },
     setup(){
         const books = ref([]);
@@ -52,6 +55,9 @@ export default defineComponent ({
                     console.log(response.data.books);
                     books.value = response.data.books;
                  })
+
+                 
+                 
 
                  .catch((error) => {
                     console.log(error)
@@ -70,6 +76,8 @@ export default defineComponent ({
                     console.log(error);
                 });
         };
+
+        onMounted(showBooks)
 
         return {
             books,

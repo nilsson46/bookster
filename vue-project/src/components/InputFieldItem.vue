@@ -1,7 +1,7 @@
 <template>
     <div>
       <label>{{ label }}</label>
-      <input :type="type" :value="value" @input="handleInput($event)" />
+      <input :type="type" :value="value" @input="handleInput($event)" :placeholder="placeholder" />
     </div>
   </template>
 
@@ -36,12 +36,9 @@ export default defineComponent({
 </script>
 
 <style scoped>
-    label {
-        margin-right: 1rem;
+    
+    div,input {
+        width: 100%;
     }
-    input {
-        margin-top: 1rem;
-        margin-right: 1rem;
-        height: 1.5rem;
-    }
+
 </style>

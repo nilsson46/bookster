@@ -4,7 +4,7 @@ export default {
     name: 'TokenComponent',
     data(){
         return {
-            role: null
+            role: null as string | null
         };
     },
 

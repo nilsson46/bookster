@@ -19,8 +19,13 @@ export default defineComponent({
             password: "",
         };
     },
-    methods:{
+    methods:{ //TODO Put this in a own service! All of the api calls.
         async handleLogin(){
+            if (this.username.trim() === "" || this.password.trim() === "") {
+                console.error("Username and password are required");
+                return; // Guardian class always in the start or end of the code.
+                    }
+            
             try{
                 const url = "http://localhost:3000/auth/login";
                 const data = {
@@ -30,16 +35,10 @@ export default defineComponent({
                 console.log("Request URL:", url);
                 console.log("Request Data:", JSON.stringify(data));
 
-                if (this.username.trim() === "" || this.password.trim() === "") {
-                console.error("Username and password are required");
-                return; // Stop further execution
-                    }
+                
                 const response = await axios.post(url, data);
                 const accessToken = response.data.accessToken;
                 localStorage.setItem("accessToken", accessToken)
-
-                
-
                 this.$router.push("/library/books")
                 console.log("Authentication succesfull")
             } catch(error: any) {
@@ -56,16 +55,41 @@ export default defineComponent({
         <nav>
             <NavBarItem/>
         </nav>
-        <form @submit.prevent="handleLogin">
-            <InputFieldItem v-model:value="username" label="Username" type="text" />
-            <InputFieldItem v-model:value="password" label="Password" type="password"/>
-            <button id="login-btn" type="submit">Login</button>
-        </form>
+        <div class="form">
+            <form class="login-form" @submit.prevent="handleLogin">
+                <h1>Login</h1>
+                <InputFieldItem v-model:value="username" label="Username" type="text" />
+                <InputFieldItem v-model:value="password" label="Password" type="password"/>
+                <p>No account? Sign up <a href="http://localhost:5173/auth/register">here!</a></p>
+                <button class="form-btn" id="login-btn" type="submit">Login</button>
+                <button class="form-btn" id="proceed-as-guest-btn">Proceed as guest user</button>
+            </form>
+        </div>
+        
     </div>
 </template>
 
 <style>
 #login-btn{
     margin-top: 1rem;
+}
+.form-btn{
+    width: 100%;
+    margin-top: 1rem;
+}
+.form{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10rem;
+    background-color: lightblue;
+    width: 400px;
+    padding: 1rem;
 }
 </style>
