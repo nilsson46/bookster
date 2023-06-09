@@ -1,8 +1,6 @@
 <script lang="ts">
-
-import axios from 'axios';
 import { defineComponent, ref, onMounted} from 'vue';
-import BooksItem from "../components/BooksItem.vue"
+import type { Book } from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
@@ -10,7 +8,7 @@ import { useRouter } from "vue-router"
 import { searchBooks, getBooks } from '../service/bookservice';
 export default defineComponent ({
     components: {
-    BooksItem,
+    //BooksItem,
     NavBarItem,
     InputFieldItem,
 },
@@ -40,7 +38,7 @@ export default defineComponent ({
     };
 
         onMounted(showBooks)
-
+//TODO Maybe move this to a service? 
         const isAdmin = () => {
             let userRole = getUserRole();
             return userRole === "ADMIN";
@@ -94,7 +92,7 @@ export default defineComponent ({
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td class="quantity">{{ book.quantity }}</td>
-                        <td></td>
+                        <td><button>Order</button></td>
                         <td><button>Edit</button> 
                             <button>Delete</button>
                         </td>

@@ -1,4 +1,3 @@
-//TODO check what type of user are logged in. 
 //TODO admin should POST /admin/books { "Author", "Title", "Quantity"} Ger statuskod 201 när en bok har lagts till. 
 //TODO admin should  PUT /admin/books { "previous", "current" } Previous är en bok representerad med titel { "title" }
 Current är den nya boken representerad med den data som önskas uppdateras {"?title", "?author", "?quantity"}? = optional.
@@ -10,52 +9,46 @@ Ger statuskod 404 om boken inte hittades
 
 
 <script lang="ts">
-
-import axios from 'axios';
 import { defineComponent, ref, onMounted} from 'vue';
-import BooksItem from "../components/BooksItem.vue"
+import type { Book } from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
-
+//import { getUserRole } from '@/components/TokenItem.vue';
+//import { useRouter } from "vue-router"
+import { searchBooks, getBooks } from '../service/bookservice';
 export default defineComponent ({
     components: {
-    BooksItem,
+    //BooksItem,
     NavBarItem,
     InputFieldItem,
 },
     setup(){
-        const books = ref([]);
+        //const router = useRouter();
+        const books = ref<Book[]>([]);
         const searchInput = ref('');
-
+        
         const showSearchedBooks = () => {
-            const inputValue = searchInput.value.trim().toLowerCase();
-            const URL = `http://localhost:3000/library/books/search?q=${inputValue}`;
-            axios
-                 .get(URL)
-                 .then((response) => {
-                    console.log(inputValue);
-                    console.log(response.data.books);
-                    books.value = response.data.books;
-                 })
-                 .catch((error) => {
-                    console.log(error)
-                 })
-        }
-
-        const showBooks = () => {
-            const URL = "http://localhost:3000/library/books";
-            axios
-                .get(URL)
-                .then((response) => {
-                    console.log(response.data);
-                    books.value = response.data.books;
+            const inputValue = searchInput.value;
+            searchBooks(inputValue)
+                .then((searchedBooks) => {
+                    books.value = searchedBooks;
                 })
                 .catch((error) => {
-                    console.log(error);
-                });
-        };
+                    console.log(error)
+                })
+        }
+        const showBooks = () => {
+      getBooks()
+        .then((responseBooks) => {
+          books.value = responseBooks;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
         onMounted(showBooks)
+
 
         return {
             books,
@@ -76,10 +69,11 @@ export default defineComponent ({
         </nav>
         <div class="search-field">
             <InputFieldItem
-        :value="searchInput"
-        @update:value="searchInput = $event"
-        :label="''"
-        :placeholder="'Search for a book'"/>
+            v-model:value="searchInput"
+            :label="''"
+            :placeholder="'Search for a book'"
+            @update:value="showSearchedBooks"
+          />
             <button @click="showSearchedBooks">Search</button>
         </div>
 
@@ -91,6 +85,7 @@ export default defineComponent ({
                         <th>Author</th>
                         <th>Availability</th>
                         <th>Order</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -98,6 +93,7 @@ export default defineComponent ({
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td class="quantity">{{ book.quantity }}</td>
+                        <td></td>
                     </tr>               
                  </tbody>
             </table>

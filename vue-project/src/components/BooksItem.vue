@@ -10,7 +10,7 @@
 import {defineComponent} from 'vue';
 import type { PropType} from 'vue';
 
-interface Book{
+export interface Book{
     title: string;
     author: string; 
     quantity: number;

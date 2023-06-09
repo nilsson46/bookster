@@ -1,4 +1,5 @@
 import axios from "axios";
+import type { Book } from "../components/BooksItem.vue"
 
 export async function searchBooks(inputValue: string): Promise<Book[]> { 
     const query = inputValue.trim().toLocaleLowerCase();
