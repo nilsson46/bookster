@@ -1,8 +1,9 @@
 <script lang="ts">
-import {defineComponent} from "vue";
+import {defineComponent, onMounted} from "vue";
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import NavBarItem from "@/components/NavBarItem.vue";
 import axios from "axios";
+import {getUserRole} from "@/components/TokenItem.vue";
 
 //TODO handleLogin check with the users in the database and give a token. 
 //TODO should buttons be like this? 
@@ -39,7 +40,19 @@ export default defineComponent({
                 const response = await axios.post(url, data);
                 const accessToken = response.data.accessToken;
                 localStorage.setItem("accessToken", accessToken)
-                this.$router.push("/library/books")
+
+                const userRole = getUserRole();
+                
+                
+
+                if(userRole === "ADMIN") {
+                    this.$router.push("/admin/books")
+                    console.log(userRole);
+                } else{
+                    this.$router.push("/library/books")
+                    console.log(userRole);
+                }
+                
                 console.log("Authentication succesfull")
             } catch(error: any) {
                 console.error("Authentication error:", error.message)
@@ -47,7 +60,8 @@ export default defineComponent({
         
             
         }
-    }
+    },
+    
 });
 </script>
 <template>

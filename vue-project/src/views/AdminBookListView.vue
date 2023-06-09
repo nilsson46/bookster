@@ -5,6 +5,8 @@ import { defineComponent, ref, onMounted} from 'vue';
 import BooksItem from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
+import { getUserRole } from '@/components/TokenItem.vue';
+import { useRouter } from "vue-router"
 
 export default defineComponent ({
     components: {
@@ -13,6 +15,7 @@ export default defineComponent ({
     InputFieldItem,
 },
     setup(){
+        const router = useRouter();
         const books = ref([]);
         const searchInput = ref('');
 
@@ -45,6 +48,17 @@ export default defineComponent ({
         };
 
         onMounted(showBooks)
+
+        const isAdmin = () => {
+            let userRole = getUserRole();
+            return userRole === "ADMIN";
+        }
+
+        if(!isAdmin()){
+            router.push("/library/books");
+            console.log("Redirected to non-admin page");
+            
+        }
 
         return {
             books,

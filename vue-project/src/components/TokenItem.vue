@@ -1,31 +1,20 @@
 <script lang="ts">
 
-export default {
-    name: 'TokenComponent',
-    data(){
-        return {
-            role: null as string | null
-        };
-    },
-
-    mounted(){
+export function getUserRole(): string | null {
+    
         const token = localStorage.getItem("accessToken")
 
         if(token){
         const splittedToken = token.split('.')
-
         const decodedToken = atob(splittedToken[1]);
-
         const payload = JSON.parse(decodedToken);
-        this.role = payload.role;
-
-        console.log("Role:", this.role);
+        return payload.role;
         } else {
             console.log("Token not found in localStorage");
-            this.role="GUEST"
+            return null;
      }
         
-}}
+}
 
 </script>
 
