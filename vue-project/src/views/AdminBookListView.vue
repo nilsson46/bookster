@@ -7,7 +7,7 @@ import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
-
+import { searchBooks, getBooks } from '../service/bookservice';
 export default defineComponent ({
     components: {
     BooksItem,
@@ -16,36 +16,28 @@ export default defineComponent ({
 },
     setup(){
         const router = useRouter();
-        const books = ref([]);
+        const books = ref<Book[]>([]);
         const searchInput = ref('');
-
+        
         const showSearchedBooks = () => {
-            const inputValue = searchInput.value.trim().toLowerCase();
-            const URL = `http://localhost:3000/library/books/search?q=${inputValue}`;
-            axios
-                 .get(URL)
-                 .then((response) => {
-                    console.log(inputValue);
-                    console.log(response.data.books);
-                    books.value = response.data.books;
-                 })
-                 .catch((error) => {
-                    console.log(error)
-                 })
-        }
-
-        const showBooks = () => {
-            const URL = "http://localhost:3000/library/books";
-            axios
-                .get(URL)
-                .then((response) => {
-                    console.log(response.data);
-                    books.value = response.data.books;
+            const inputValue = searchInput.value;
+            searchBooks(inputValue)
+                .then((searchedBooks) => {
+                    books.value = searchedBooks;
                 })
                 .catch((error) => {
-                    console.log(error);
-                });
-        };
+                    console.log(error)
+                })
+        }
+        const showBooks = () => {
+      getBooks()
+        .then((responseBooks) => {
+          books.value = responseBooks;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
 
         onMounted(showBooks)
 
