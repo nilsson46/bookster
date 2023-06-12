@@ -54,6 +54,7 @@
       initialBook: {
         type: Object,
         required: true,
+        default: null
       },
       books: {
         type: Array,
@@ -78,10 +79,7 @@
       async handleSubmit() {
         if (this.mode === 'add') {
           try {
-            await addBook(this.book);
-            console.log("Book added");
-            this.getBooks();
-            this.handleCancel();
+            this.$emit("addBook", this.book)
           } catch (error) {
             console.log(error);
           }

@@ -5,14 +5,15 @@ import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
-import { searchBooks, getBooks, addBooks } from '../service/bookservice';
-import EditBooksItem from '../components/EditBookItems.vue';
+import { searchBooks, getBooks, addBook } from '../service/bookservice';
+import addBookModal from '@/components/AddBookModal.vue';
 export default defineComponent ({
     components: {
     //BooksItem,
     NavBarItem,
     InputFieldItem,
-    EditBooksItem,
+    //EditBooksItem,
+    addBookModal
 },
     setup(){
         const router = useRouter();
@@ -20,6 +21,8 @@ export default defineComponent ({
         const searchInput = ref('');
         const showEditItem = ref(false);
         const selectedBook = ref<Book | null>(null);
+        const isAddModalVisible = ref(false);
+        const apiToken = localStorage.getItem("accessToken");
 
         const showSearchedBooks = () => {
             const inputValue = searchInput.value;
@@ -41,7 +44,32 @@ export default defineComponent ({
         });
     };
 
-    const showEditBooksItem = (book: Book | null) => {
+    
+
+    const addNewBook = (newBook) => {
+        addBook(newBook)
+        .then(() => {
+            books.value.push(newBook);
+            hideAddModal;
+            showBooks();
+        })
+        .catch((error) => {
+            console.error('An error occurred while adding the book', error);
+        });
+    };
+
+    const showAddModal = () => {
+        isAddModalVisible.value = true;
+    }
+    const hideAddModal = () => {
+        isAddModalVisible.value = false;
+    };
+
+    const handleBookAdded = () => {
+      showBooks;
+    };
+
+    /*const showEditBooksItem = (book: Book | null) => {
       selectedBook.value = book;
       showEditItem.value = true;
     };
@@ -49,7 +77,7 @@ export default defineComponent ({
     const hideEditBooksItem = () => {
       selectedBook.value = null;
       showEditItem.value = false;
-    };
+    }; */
 
        
 //TODO Maybe move this to a service? 
@@ -66,9 +94,16 @@ export default defineComponent ({
 
         onMounted(showBooks)
         
-        const handleBookAdded = (newBook) => {
+       /* const addNewBook = (newBook) => {
+  addBook(newBook)
+    .then(() => {
       books.value.push(newBook);
-    };
+      hideEditBooksItem();
+    })
+    .catch((error) => {
+      console.error("An error occurred while adding the book", error);
+    });
+}; */
 
         return {
             books,
@@ -77,9 +112,12 @@ export default defineComponent ({
             searchInput,
             showEditItem,
             selectedBook,
-            showEditBooksItem,
-            hideEditBooksItem,
+           // showEditBooksItem,
+            //hideEditBooksItem,
+            showAddModal,
+            apiToken,
             handleBookAdded,
+            isAddModalVisible,
         };
     }
 });
@@ -100,10 +138,9 @@ export default defineComponent ({
         :placeholder="'Search for a book'"/>
             <button @click="showSearchedBooks">Search</button>
         </div>
-        
-        <div>
-            <button @click="showEditBooksItem(null)">Add book</button>
-          </div>
+        <div class="add-btn">
+            <button @click="showAddModal">Add new book</button>
+        </div>
         <div>
             <table>
                 <thead>
@@ -122,20 +159,15 @@ export default defineComponent ({
                         <td class="quantity">{{ book.quantity }}</td>
                         <td><button>Order</button></td>
                         <td>
-                            <button @click="showEditBooksItem(book)">Edit</button>
+                            <button>Edit</button>
                             <button>Delete</button>
                           </td>
                     </tr>               
                  </tbody>
             </table>
-            
+            <add-book-modal v-if="showAddModal" :token="apiToken" @bookAdded="handleBookAdded" />
         </div>
-        <EditBooksItem
-    v-if="showEditItem"
-    :initialBook="selectedBook"
-    :mode="'edit'"
-    @close="hideEditBooksItem"
-/>
+        
     </div>
 </template>
 
