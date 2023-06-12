@@ -5,7 +5,7 @@ import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
-import { searchBooks, getBooks } from '../service/bookservice';
+import { searchBooks, getBooks, addBooks } from '../service/bookservice';
 import EditBooksItem from '../components/EditBookItems.vue';
 export default defineComponent ({
     components: {
@@ -65,6 +65,10 @@ export default defineComponent ({
         }
 
         onMounted(showBooks)
+        
+        const handleBookAdded = (newBook) => {
+      books.value.push(newBook);
+    };
 
         return {
             books,
@@ -75,6 +79,7 @@ export default defineComponent ({
             selectedBook,
             showEditBooksItem,
             hideEditBooksItem,
+            handleBookAdded,
         };
     }
 });
@@ -126,10 +131,11 @@ export default defineComponent ({
             
         </div>
         <EditBooksItem
-      v-if="showEditItem"
-      :book="selectedBook"
-      @close="hideEditBooksItem"
-    />
+    v-if="showEditItem"
+    :initialBook="selectedBook"
+    :mode="'edit'"
+    @close="hideEditBooksItem"
+/>
     </div>
 </template>
 
