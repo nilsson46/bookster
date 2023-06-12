@@ -5,7 +5,7 @@ import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
-import { searchBooks, getBooks, addBook } from '../service/bookservice';
+import { searchBooks, getBooks, addBook, deleteBook } from '../service/bookservice';
 import addBookModal from '@/components/AddBookModal.vue';
 export default defineComponent ({
     components: {
@@ -50,7 +50,7 @@ export default defineComponent ({
         addBook(newBook)
         .then(() => {
             books.value.push(newBook);
-            hideAddModal;
+            hideAddModal();
             showBooks();
         })
         .catch((error) => {
@@ -66,10 +66,23 @@ export default defineComponent ({
     };
 
     const handleBookAdded = () => {
-      showBooks;
+      showBooks();
     };
+    
+    const deleteSelectedBook = (book) => {
+        deleteBook(book.title)
+      .then(() => {
+        books.value = books.value.filter((book) => book.title !== book.title);
+        selectedBook.value = null;
+        showBooks();
+      })
+      .catch((error) => {
+        console.error('An error occurred while deleting the book', error);
+      });
+  }
 
-    /*const showEditBooksItem = (book: Book | null) => {
+
+    const showEditBooksItem = (book: Book | null) => {
       selectedBook.value = book;
       showEditItem.value = true;
     };
@@ -77,7 +90,7 @@ export default defineComponent ({
     const hideEditBooksItem = () => {
       selectedBook.value = null;
       showEditItem.value = false;
-    }; */
+    }; 
 
        
 //TODO Maybe move this to a service? 
@@ -118,6 +131,7 @@ export default defineComponent ({
             apiToken,
             handleBookAdded,
             isAddModalVisible,
+            deleteSelectedBook,
         };
     }
 });
@@ -160,7 +174,7 @@ export default defineComponent ({
                         <td><button>Order</button></td>
                         <td>
                             <button>Edit</button>
-                            <button>Delete</button>
+                            <button @click="deleteSelectedBook(book)">Delete</button>
                           </td>
                     </tr>               
                  </tbody>

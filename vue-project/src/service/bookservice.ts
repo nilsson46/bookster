@@ -90,4 +90,35 @@ export async function addBook(newBook: any): Promise<void> {
   } else {
     console.log("Token not found in localStorage");
   }
+} 
+
+export function deleteBook(bookTitle: string): Promise<void> {
+  const token = localStorage.getItem("accessToken");
+
+  if (token) {
+    const headers: AxiosRequestConfig["headers"] = {
+      "Authorization": `Bearer ${token}`
+    };
+
+    const requestOptions: AxiosRequestConfig = {
+      method: "DELETE",
+      url: `http://localhost:3000/admin/books`, // Add the base URL
+      headers: headers,
+      data:{
+        title:bookTitle
+      }
+    };
+
+    return axios(requestOptions)
+      .then(() => {
+        console.log('Book has been deleted');
+      })
+      .catch((error) => {
+        console.error('An error occurred while deleting the book', error);
+        throw error;
+      });
+  } else {
+    console.log("Token not found in localStorage");
+    return Promise.reject(new Error("Token not found in localStorage"));
+  }
 }
