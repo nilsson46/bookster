@@ -58,8 +58,6 @@ export default defineComponent ({
         };
     }
 });
-
-
 </script>
 
 <template>
@@ -76,7 +74,6 @@ export default defineComponent ({
           />
             <button @click="showSearchedBooks">Search</button>
         </div>
-
         <div>
             <table>
                 <thead>
@@ -85,7 +82,7 @@ export default defineComponent ({
                         <th>Author</th>
                         <th>Availability</th>
                         <th>Order</th>
-                        <th>Action</th>
+                        
                     </tr>
                 </thead>
                 <tbody>

@@ -6,17 +6,21 @@ import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
 import { searchBooks, getBooks } from '../service/bookservice';
+import EditBooksItem from '../components/EditBookItems.vue';
 export default defineComponent ({
     components: {
     //BooksItem,
     NavBarItem,
     InputFieldItem,
+    EditBooksItem,
 },
     setup(){
         const router = useRouter();
         const books = ref<Book[]>([]);
         const searchInput = ref('');
-        
+        const showEditItem = ref(false);
+        const selectedBook = ref<Book | null>(null);
+
         const showSearchedBooks = () => {
             const inputValue = searchInput.value;
             searchBooks(inputValue)
@@ -37,7 +41,17 @@ export default defineComponent ({
         });
     };
 
-        onMounted(showBooks)
+    const showEditBooksItem = (book: Book | null) => {
+      selectedBook.value = book;
+      showEditItem.value = true;
+    };
+
+    const hideEditBooksItem = () => {
+      selectedBook.value = null;
+      showEditItem.value = false;
+    };
+
+       
 //TODO Maybe move this to a service? 
         const isAdmin = () => {
             let userRole = getUserRole();
@@ -50,11 +64,17 @@ export default defineComponent ({
             
         }
 
+        onMounted(showBooks)
+
         return {
             books,
             showBooks,
             showSearchedBooks,
             searchInput,
+            showEditItem,
+            selectedBook,
+            showEditBooksItem,
+            hideEditBooksItem,
         };
     }
 });
@@ -75,7 +95,10 @@ export default defineComponent ({
         :placeholder="'Search for a book'"/>
             <button @click="showSearchedBooks">Search</button>
         </div>
-
+        
+        <div>
+            <button @click="showEditBooksItem(null)">Add book</button>
+          </div>
         <div>
             <table>
                 <thead>
@@ -93,14 +116,20 @@ export default defineComponent ({
                         <td>{{ book.author }}</td>
                         <td class="quantity">{{ book.quantity }}</td>
                         <td><button>Order</button></td>
-                        <td><button>Edit</button> 
+                        <td>
+                            <button @click="showEditBooksItem(book)">Edit</button>
                             <button>Delete</button>
-                        </td>
+                          </td>
                     </tr>               
                  </tbody>
             </table>
             
         </div>
+        <EditBooksItem
+      v-if="showEditItem"
+      :book="selectedBook"
+      @close="hideEditBooksItem"
+    />
     </div>
 </template>
 

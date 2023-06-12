@@ -1,5 +1,5 @@
 <script lang="ts">
-import {defineComponent, onMounted} from "vue";
+import {defineComponent} from "vue";
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import NavBarItem from "@/components/NavBarItem.vue";
 import axios from "axios";
