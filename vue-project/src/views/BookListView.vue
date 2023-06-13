@@ -1,4 +1,3 @@
-//TODO admin should POST /admin/books { "Author", "Title", "Quantity"} Ger statuskod 201 när en bok har lagts till. 
 //TODO admin should  PUT /admin/books { "previous", "current" } Previous är en bok representerad med titel { "title" }
 Current är den nya boken representerad med den data som önskas uppdateras {"?title", "?author", "?quantity"}? = optional.
 Ger statuskod 201 när en bok har uppdaterats. 

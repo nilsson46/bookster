@@ -79,27 +79,13 @@ export default defineComponent ({
         }
 
         onMounted(showBooks)
-        
-       /* const addNewBook = (newBook) => {
-  addBook(newBook)
-    .then(() => {
-      books.value.push(newBook);
-      hideEditBooksItem();
-    })
-    .catch((error) => {
-      console.error("An error occurred while adding the book", error);
-    });
-}; */
 
         return {
             books,
             showBooks,
             showSearchedBooks,
             searchInput,
-            
             selectedBook,
-           // showEditBooksItem,
-            //hideEditBooksItem,
             showAddModal,
             apiToken,
             handleBookAdded,

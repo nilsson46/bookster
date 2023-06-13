@@ -3,9 +3,9 @@
       <div class="modal-content">
         <h2>Add New Book</h2>
         <form @submit.prevent="addNewBook">
-          <input v-model="title" type="text" placeholder="Title" required>
-          <input v-model="author" type="text" placeholder="Author" required>
-          <input v-model="quantity" type="number" placeholder="Quantity" required>
+          <InputFieldItem v-model="title" type="text" placeholder="Title" required/>
+          <InputFieldItem v-model="author" type="text" placeholder="Author" required/>
+          <InputFieldItem v-model="quantity" type="number" placeholder="Quantity" required/>
           <button type="submit">Add Book</button>
         </form>
       </div>
@@ -15,7 +15,11 @@
   <script lang="ts">
   import { defineComponent } from 'vue';
   import axios from "axios"
+  import InputFieldItem from './InputFieldItem.vue';
   export default defineComponent({
+    components: {
+      InputFieldItem
+    },
     props: {
       token: {
         type: String,
