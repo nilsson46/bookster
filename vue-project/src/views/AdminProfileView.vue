@@ -14,6 +14,11 @@
                     <tr v-for="user in users" :key="user.username">
                         <td> {{ user.username }}</td>
                         <td> {{user.role }}</td>
+                        <td></td>
+                        <td>
+                            <button @click="promoteUser(user.username)">Promote</button>
+                            <button @click="deleteUser(user.username)">Delete</button>
+                        </td>
                     </tr>    
              </tbody>
         </table>
@@ -22,7 +27,7 @@
 
 <script lang="ts">
 import NavBarItem from '@/components/NavBarItem.vue';
-import { getUsers } from '@/service/AdminService';
+import { getUsers, promoteUser as promoteUserRequest, deleteUser as deleteUserRequest } from '@/service/AdminService';
 import { ref, onMounted } from 'vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from 'vue-router';
@@ -53,27 +58,43 @@ export default defineComponent({
         console.log('Sending request to retrieve users...');
         const response = await getUsers();
         console.log('Users retrieved successfully:', response);
-        users.value = response.data;
+        users.value = response.users;
         console.log('Users set in component:', users.value);
       } catch (error) {
         console.error('An error occurred while retrieving users:', error);
       }
     };
-    const getUsersPromise = new Promise<void>((resolve, reject) => {
-      onMounted(async () => {
-        try {
-          await fetchUsers();
-          resolve();
-        } catch (error) {
-          reject(error);
-        }
-      });
-    });
+
+    const promoteUser = async (username: string) => {
+      try {
+        console.log(`Promoting user: ${username}`);
+        await promoteUserRequest(username);
+        console.log(`User ${username} promoted successfully`);
+        
+        await fetchUsers();
+      } catch (error) {
+        console.error(`An error occurred while promoting user ${username}:`, error);
+      }
+    };
+    
+    const deleteUser = async (username: string) => {
+      try {
+        console.log(`Deleting user: ${username}`);
+        await deleteUserRequest(username);
+        console.log(`User ${username} promoted successfully`);
+        
+        await fetchUsers();
+      } catch (error) {
+        console.error(`An error occurred while deleting user ${username}:`, error);
+      }
+    };
+    onMounted(fetchUsers)
 
     return {
          users,
          isAdmin,
-         getUsersPromise,
+         promoteUser,
+         deleteUser
     };
   },
 });
