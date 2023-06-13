@@ -64,33 +64,25 @@ export function editBook(bookTitle: string, updatedData: any): void {
     }
 }
 
-export async function addBook(newBook: any): Promise<void> {
-  const token = localStorage.getItem("accessToken");
+export async function addBook(newBook: any, token: string): Promise<void> {
+  const headers = {
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json',
+  };
 
-  if (token) {
-    const headers: AxiosRequestConfig["headers"] = {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
-    };
+  try {
+    const response = await axios.post('/admin/books', newBook, { headers });
 
-    const requestOptions: AxiosRequestConfig = {
-      method: "POST",
-      url: "/api/books",
-      headers: headers,
-      data: newBook
-    };
-
-    try {
-      await axios(requestOptions);
-      console.log("Book added successfully");
-    } catch (error) {
-      console.error("An error occurred while adding the book", error);
-      throw error;
+    if (response.status === 201) {
+      console.log('Book added successfully');
+    } else {
+      console.log('Error adding the book');
     }
-  } else {
-    console.log("Token not found in localStorage");
+  } catch (error) {
+    console.error('An error occurred while adding the book', error);
+    throw error;
   }
-} 
+}
 
 export function deleteBook(bookTitle: string): Promise<void> {
   const token = localStorage.getItem("accessToken");

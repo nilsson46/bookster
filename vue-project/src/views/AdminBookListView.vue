@@ -9,17 +9,15 @@ import { searchBooks, getBooks, addBook, deleteBook } from '../service/bookservi
 import addBookModal from '@/components/AddBookModal.vue';
 export default defineComponent ({
     components: {
-    //BooksItem,
+
     NavBarItem,
     InputFieldItem,
-    //EditBooksItem,
     addBookModal
 },
     setup(){
         const router = useRouter();
         const books = ref<Book[]>([]);
         const searchInput = ref('');
-        const showEditItem = ref(false);
         const selectedBook = ref<Book | null>(null);
         const isAddModalVisible = ref(false);
         const apiToken = localStorage.getItem("accessToken");
@@ -44,20 +42,6 @@ export default defineComponent ({
         });
     };
 
-    
-
-    const addNewBook = (newBook) => {
-        addBook(newBook)
-        .then(() => {
-            books.value.push(newBook);
-            hideAddModal();
-            showBooks();
-        })
-        .catch((error) => {
-            console.error('An error occurred while adding the book', error);
-        });
-    };
-
     const showAddModal = () => {
         isAddModalVisible.value = true;
     }
@@ -69,10 +53,10 @@ export default defineComponent ({
       showBooks();
     };
     
-    const deleteSelectedBook = (book) => {
+    const deleteSelectedBook = (book: Book) => {
         deleteBook(book.title)
       .then(() => {
-        books.value = books.value.filter((book) => book.title !== book.title);
+        books.value = books.value.filter((b) => b.title !== book.title);
         selectedBook.value = null;
         showBooks();
       })
@@ -80,17 +64,6 @@ export default defineComponent ({
         console.error('An error occurred while deleting the book', error);
       });
   }
-
-
-    const showEditBooksItem = (book: Book | null) => {
-      selectedBook.value = book;
-      showEditItem.value = true;
-    };
-
-    const hideEditBooksItem = () => {
-      selectedBook.value = null;
-      showEditItem.value = false;
-    }; 
 
        
 //TODO Maybe move this to a service? 
@@ -123,7 +96,7 @@ export default defineComponent ({
             showBooks,
             showSearchedBooks,
             searchInput,
-            showEditItem,
+            
             selectedBook,
            // showEditBooksItem,
             //hideEditBooksItem,

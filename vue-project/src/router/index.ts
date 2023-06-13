@@ -41,10 +41,12 @@ const router = createRouter({
       component: AdminBookListView
     },
     {
-      path: '/admin/profile',
+      path: '/admin/users',
       name: 'adminProfile',
       component: AdminProfileViewVue
-    }
+    },
+    
+
 
   ]
 })
