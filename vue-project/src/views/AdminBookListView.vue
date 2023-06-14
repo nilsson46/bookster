@@ -5,7 +5,7 @@ import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
-import { searchBooks, getBooks, addBook, deleteBook } from '../service/bookservice';
+import { searchBooks, getBooks, addBook, deleteBook, orderBook } from '../service/bookservice';
 import addBookModal from '@/components/AddBookModal.vue';
 export default defineComponent ({
     components: {
@@ -42,6 +42,20 @@ export default defineComponent ({
         });
     };
 
+    const orderSelectedBook = (book: Book) => {
+        const quantity = book.orderQuantity;
+        if(quantity && quantity > 0) {
+            orderBook(book.title, quantity)
+            .then(() => {
+                book.orderQuantity = undefined;
+                showBooks();
+            })
+        .catch((error) => {
+            console.error("An error occured while ordering the book", error);
+            
+        })
+    }
+}
     const showAddModal = () => {
         isAddModalVisible.value = true;
     }
@@ -91,6 +105,7 @@ export default defineComponent ({
             handleBookAdded,
             isAddModalVisible,
             deleteSelectedBook,
+            orderSelectedBook,
         };
     }
 });
@@ -130,7 +145,8 @@ export default defineComponent ({
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td class="quantity">{{ book.quantity }}</td>
-                        <td><button>Order</button></td>
+                        <td> <input type="number" v-model="book.orderQuantity" min="1" />
+                            <button @click="orderSelectedBook(book)">Order</button></td>
                         <td>
                             <button>Edit</button>
                             <button @click="deleteSelectedBook(book)">Delete</button>

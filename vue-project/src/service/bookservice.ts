@@ -120,3 +120,40 @@ export function deleteBook(bookTitle: string): Promise<void> {
     return Promise.reject(new Error("Token not found in localStorage"));
   }
 }
+
+export async function orderBook(bookTitle: String, quantity: number): Promise<void> {
+  const token = localStorage.getItem("accessToken");
+
+  if (token) {
+    const headers: AxiosRequestConfig["headers"] = {
+      "Authorization": `Bearer ${token}`,
+      "Content-Type": "application/json"
+    };
+
+    const data = {
+      title: bookTitle, 
+      quantity: quantity,
+    }
+
+    const requestOptions: AxiosRequestConfig = {
+      method: "POST",
+      url: "http://localhost:3000/library/user/books",
+      headers: headers,
+      data: data,
+    };
+
+    return axios(requestOptions)
+    .then((response) => {
+      console.log('Book has been added');
+      console.log('Response:', response.data);
+    })
+    .catch((error) => {
+      console.error('An error occurred while adding the book', error);
+      throw error;
+    });
+} else {
+  console.log('Token not found in localStorage');
+  return Promise.reject(new Error('Token not found in localStorage'));
+}
+}
+
