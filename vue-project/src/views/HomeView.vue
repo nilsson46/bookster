@@ -1,9 +1,11 @@
 <script setup lang="ts">
-
+import NavBarItem from '@/components/NavBarItem.vue';
 </script>
 
 <template>
+  
   <main>
-    <TheWelcome />
+    <NavBarItem/>
+    
   </main>
 </template>
