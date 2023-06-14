@@ -40,13 +40,15 @@
         author: this.author,
         quantity: this.quantity,
       };
-
+      //TODO move to service! 
       const headers = {
         Authorization: `Bearer ${this.token}`,
         'Content-Type': 'application/json',
       };
-
+      console.log('New book:', newBook);
+      console.log('Headers:', headers);
       axios
+      
         .post('http://localhost:3000/admin/books', newBook, { headers })
         .then((response) => {
           if (response.status === 201) {
@@ -55,7 +57,6 @@
             // Emit an event to notify the parent component that a new book is added
             this.$emit('bookAdded');
           } else {
-            // Error occurred while adding the book
             console.log('Error adding the book');
           }
         })

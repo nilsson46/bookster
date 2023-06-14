@@ -7,13 +7,13 @@ import { getUserRole } from '@/components/TokenItem.vue';
 import { isAdmin } from '@/utils/isAdmin';
 import { useRouter } from "vue-router"
 import { searchBooks, getBooks, deleteBook, orderBook } from '../service/bookservice';
-import addBookModal from '@/components/AddBookModal.vue';
+import AddBookModal from '@/components/AddBookModal.vue';
 export default defineComponent ({
     components: {
 
     NavBarItem,
     InputFieldItem,
-    addBookModal
+    AddBookModal
 },
     setup(){
         const router = useRouter();
@@ -23,6 +23,7 @@ export default defineComponent ({
         const isAddModalVisible = ref(false);
         const apiToken = localStorage.getItem("accessToken");
 
+        // Function to show searched books based on search input
         const showSearchedBooks = () => {
             const inputValue = searchInput.value;
             searchBooks(inputValue)
@@ -42,7 +43,7 @@ export default defineComponent ({
           console.log(error);
         });
     };
-
+    //Check so the orderQuantity is > 0. Then the api request is called. 
     const orderSelectedBook = (book: Book) => {
         const quantity = book.orderQuantity;
         if(quantity && quantity > 0) {
@@ -68,9 +69,11 @@ export default defineComponent ({
       showBooks();
     };
     
+    //Check so the title matches and remove the book or books from the array with the same title. 
     const deleteSelectedBook = (book: Book) => {
         deleteBook(book.title)
       .then(() => {
+        //If the title doesnt match it will pass the filter.
         books.value = books.value.filter((b) => b.title !== book.title);
         selectedBook.value = null;
         showBooks();
@@ -148,7 +151,7 @@ export default defineComponent ({
                     </tr>               
                  </tbody>
             </table>
-            <add-book-modal />
+            <add-book-modal :token="apiToken" @bookAdded="handleBookAdded" />
         </div>
         
     </div>
