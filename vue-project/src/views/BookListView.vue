@@ -4,15 +4,18 @@ import type { Book } from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { searchBooks, getBooks, orderBook } from '../service/bookservice';
+
+//Define the vue components.
 export default defineComponent ({
     components: {
     NavBarItem,
     InputFieldItem,
 },
     setup(){
+        //Reactive variables via ref.Holding a array of Book
         const books = ref<Book[]>([]);
         const searchInput = ref('');
-        
+        //Searches for books based on the inputfield.
         const showSearchedBooks = () => {
             const inputValue = searchInput.value;
             searchBooks(inputValue)
@@ -23,6 +26,7 @@ export default defineComponent ({
                     console.log(error)
                 })
         }
+        //Calls the getBooks from bookService to recieve all books from the backend
         const showBooks = () => {
       getBooks()
         .then((responseBooks) => {
@@ -32,12 +36,16 @@ export default defineComponent ({
           console.log(error);
         });
     };
+
+    // Check the quantity that are ordered in the backend and if it's available then the showBooks function reloads the list. Otherwise error
     const orderSelectedBook = (book: Book) => {
         const quantity = book.orderQuantity;
         if(quantity && quantity > 0) {
             orderBook(book.title, quantity)
             .then(() => {
                 book.orderQuantity = undefined;
+                console.log(quantity);
+                
                 showBooks();
             })
         .catch((error) => {
@@ -72,7 +80,6 @@ export default defineComponent ({
             :placeholder="'Search for a book'"
             @update:value="showSearchedBooks"
           />
-            <button @click="showSearchedBooks">Search</button>
         </div>
         <div class="book-table">
             <table>
