@@ -74,10 +74,10 @@ export default defineComponent ({
           />
             <button @click="showSearchedBooks">Search</button>
         </div>
-        <div>
+        <div class="book-table">
             <table>
                 <thead>
-                    <tr>
+                    <tr class="headers">
                         <th>Title</th>
                         <th>Author</th>
                         <th>Availability</th>
@@ -102,31 +102,14 @@ export default defineComponent ({
 </template>
 
 <style scoped>
-input{
-    height: 2rem;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-}
-.search-field{
-    width: 10rem;
-    margin-left: 5rem;
-}
-table{
-    width: 90%;
-    margin-left: 4rem;
-    margin-right: 4rem;
-}
-thead{
-    background-color: lightblue;
-    width: 100%;
-}
-.quantity{
-    display: flex;
+
+.book-table{
+    display: flex; 
     justify-content: center;
 }
 
-th, td{
-    padding: 0.5rem;
-    background-color: rgb(183, 247, 247);
+td, th {
+    background-color: rgb(179, 242, 242);
 }
+
 </style>

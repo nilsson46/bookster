@@ -20,6 +20,9 @@ export default defineComponent({
         };
     },
     methods:{
+
+        //TODO move this to registerService! 
+        // handles the registration
         async handleRegister(){
             try{
                 const url = "http://localhost:3000/auth/register";
@@ -28,15 +31,17 @@ export default defineComponent({
                     password: this.password,
                 };
                 console.log("Request URL:", url);
-                console.log("Request data:", JSON.stringify(data));
-                //TODO Check if the username already exist! 
+                console.log("Request data:", JSON.stringify(data)); 
+                //Check so the inpufields are filled out
                 if (this.username.trim() === "" || this.password.trim() === "") {
                 console.error("Username and password are required");
-                return; // Stop further execution
+                return; 
                     }
+                    //Post request 
                     const response = await axios.post(url, data);
                     console.log(response)
-
+                    //Redirect if register i succedded.
+                    //TODO redirect to login maybe?
                     this.$router.push("/library/books")
                     console.log("Register succesfull")
             }catch(error: any) {

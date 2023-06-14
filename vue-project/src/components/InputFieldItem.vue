@@ -34,8 +34,6 @@ export default defineComponent({
 
 <style scoped>
     
-    div,input {
-        width: 100%;
-    }
+   
 
 </style>

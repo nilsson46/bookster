@@ -154,7 +154,7 @@ export default defineComponent ({
     </div>
 </template>
 
-<style>
+<style scoped>
 input{
     height: 2rem;
     margin-bottom: 1rem;
