@@ -11,7 +11,7 @@
                 </tr>
             </thead>
             <tbody>
-                    <tr v-for="user in users" :key="user.username">
+                    <tr v-for="user  in users" :key="user.username">
                         <td> {{ user.username }}</td>
                         <td> {{user.role }}</td>
                         <td>{{ countPurchases(user.purchases) }}</td>
@@ -26,12 +26,14 @@
 </template>
 
 <script lang="ts">
+
+import { defineComponent } from 'vue';
 import NavBarItem from '@/components/NavBarItem.vue';
 import { getUsers, promoteUser as promoteUserRequest, deleteUser as deleteUserRequest } from '@/service/AdminService';
 import { ref, onMounted } from 'vue';
-import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from 'vue-router';
-import { defineComponent } from 'vue';
+import { isAdmin } from '@/utils/isAdmin';
+
 
 interface User {
   username: string;
@@ -49,9 +51,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-    const isAdmin = getUserRole() === 'ADMIN';
 
-    if (!isAdmin) {
+    if (!isAdmin()) {
       router.push('/library/books');
       console.log('Redirected to non-admin page');
     }

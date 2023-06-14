@@ -3,9 +3,9 @@
       <div class="modal-background" @click="closeModal"></div>
       <div class="modal-content">
         <h2>Edit Book</h2>
-        <InputFieldItem v-model="editedBook.title" :label="'Title'" />
-        <InputFieldItem v-model="editedBook.author" :label="'Author'" />
-        <InputFieldItem v-model="editedBook.quantity" :label="'Quantity'" />
+        <InputFieldItem v-model="editedBook.title" />
+        <InputFieldItem v-model="editedBook.author"  />
+        <InputFieldItem v-model="editedBook.quantity" />
         <div class="modal-actions">
           <button @click="saveBook">Save</button>
           <button @click="closeModal">Close</button>

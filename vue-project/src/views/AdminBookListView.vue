@@ -4,6 +4,7 @@ import type { Book } from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
+import { isAdmin } from '@/utils/isAdmin';
 import { useRouter } from "vue-router"
 import { searchBooks, getBooks, deleteBook, orderBook } from '../service/bookservice';
 import addBookModal from '@/components/AddBookModal.vue';
@@ -78,19 +79,12 @@ export default defineComponent ({
         console.error('An error occurred while deleting the book', error);
       });
   }
-
-       
-//TODO Maybe move this to a service? 
-        const isAdmin = () => {
-            let userRole = getUserRole();
-            return userRole === "ADMIN";
-        }
+        
 
         if(!isAdmin()){
             router.push("/library/books");
             console.log("Redirected to non-admin page");
-            
-        }
+            }
 
         onMounted(showBooks)
 
@@ -147,14 +141,14 @@ export default defineComponent ({
                         <td class="quantity">{{ book.quantity }}</td>
                         <td> <input type="number" v-model="book.orderQuantity" min="1" />
                             <button @click="orderSelectedBook(book)">Order</button></td>
-                        <td>
+                            <td>
                             <button>Edit</button>
                             <button @click="deleteSelectedBook(book)">Delete</button>
                           </td>
                     </tr>               
                  </tbody>
             </table>
-            <add-book-modal v-if="showAddModal" :token="apiToken" @bookAdded="handleBookAdded" />
+            <add-book-modal />
         </div>
         
     </div>
