@@ -14,7 +14,7 @@
                     <tr v-for="user in users" :key="user.username">
                         <td> {{ user.username }}</td>
                         <td> {{user.role }}</td>
-                        <td></td>
+                        <td>{{ countPurchases(user.purchases) }}</td>
                         <td>
                             <button @click="promoteUser(user.username)">Promote</button>
                             <button @click="deleteUser(user.username)">Delete</button>
@@ -36,6 +36,11 @@ import { defineComponent } from 'vue';
 interface User {
   username: string;
   role: string;
+  purchases?: {
+    title: string;
+    author: string;
+    quantity: string;
+  }[];
 }
 
 export default defineComponent({
@@ -63,6 +68,13 @@ export default defineComponent({
       } catch (error) {
         console.error('An error occurred while retrieving users:', error);
       }
+    };
+
+    const countPurchases = (purchases?: User['purchases']): number => {
+      if (!purchases || purchases.length === 0) {
+        return 0;
+      }
+      return purchases.length;
     };
 
     const promoteUser = async (username: string) => {
@@ -94,7 +106,8 @@ export default defineComponent({
          users,
          isAdmin,
          promoteUser,
-         deleteUser
+         deleteUser,
+         countPurchases
     };
   },
 });

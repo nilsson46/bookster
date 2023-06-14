@@ -69,7 +69,6 @@ export default defineComponent ({
         <div class="search-field">
             <InputFieldItem
             v-model:value="searchInput"
-            :label="''"
             :placeholder="'Search for a book'"
             @update:value="showSearchedBooks"
           />

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <label>{{ label }}</label>
+      
       <input :type="type" :value="value" @input="handleInput($event)" :placeholder="placeholder" />
     </div>
   </template>
@@ -13,9 +13,6 @@ export default defineComponent({
         value: {
             required: true,
         }, 
-        label: {
-            required: true,
-        },
         type: {
             default: "text",
         },

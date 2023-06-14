@@ -72,8 +72,8 @@ export default defineComponent({
         <div class="form">
             <form class="login-form" @submit.prevent="handleLogin">
                 <h1>Login</h1>
-                <InputFieldItem v-model:value="username" label="Username" type="text" />
-                <InputFieldItem v-model:value="password" label="Password" type="password"/>
+                <InputFieldItem v-model:value="username" label="Username" type="text" placeholder="Username..." />
+                <InputFieldItem v-model:value="password" label="Password" type="password" placeholder="Password..."/>
                 <p>No account? Sign up <a href="http://localhost:5173/auth/register">here!</a></p>
                 <button class="form-btn" id="login-btn" type="submit">Login</button>
                 <button class="form-btn" id="proceed-as-guest-btn">Proceed as guest user</button>

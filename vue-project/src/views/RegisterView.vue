@@ -54,8 +54,8 @@ export default defineComponent({
             <NavBarItem/>
         </nav>
         <form @submit.prevent="handleRegister">
-            <InputFieldItem v-model:value="username" label="Username" type="text" />
-            <InputFieldItem v-model:value="password" label="Password" type="password"/>
+            <InputFieldItem v-model:value="username" placeholder="Username" type="text" />
+            <InputFieldItem v-model:value="password" placeholder="Password" type="password"/>
             <button id="register-btn" type="submit">Register</button>
         </form>
     </div>

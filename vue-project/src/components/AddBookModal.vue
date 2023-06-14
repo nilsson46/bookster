@@ -4,8 +4,8 @@
         <h2>Add New Book</h2>
         <form @submit.prevent="addNewBook">
           <InputFieldItem :value="title" @update:value="title = $event" type="text" placeholder="Title" required/>
-        <InputFieldItem :value="author" @update:value="author = $event" type="text" placeholder="Author" required/>
-        <InputFieldItem :value="quantity" @update:value="quantity = $event" type="number" placeholder="Quantity" required/>
+          <InputFieldItem :value="author" @update:value="author = $event" type="text" placeholder="Author" required/>
+          <InputFieldItem :value="quantity" @update:value="quantity = $event" type="number" placeholder="Quantity" required/>
           <button type="submit">Add Book</button>
         </form>
       </div>

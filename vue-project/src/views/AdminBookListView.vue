@@ -5,7 +5,7 @@ import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
 import { getUserRole } from '@/components/TokenItem.vue';
 import { useRouter } from "vue-router"
-import { searchBooks, getBooks, addBook, deleteBook, orderBook } from '../service/bookservice';
+import { searchBooks, getBooks, deleteBook, orderBook } from '../service/bookservice';
 import addBookModal from '@/components/AddBookModal.vue';
 export default defineComponent ({
     components: {
@@ -120,10 +120,10 @@ export default defineComponent ({
         </nav>
         <div class="search-field">
             <InputFieldItem
-        :value="searchInput"
-        @update:value="searchInput = $event"
-        :label="''"
-        :placeholder="'Search for a book'"/>
+            v-model:value="searchInput"
+            :placeholder="'Search for a book'"
+            @update:value="showSearchedBooks"
+          />
             <button @click="showSearchedBooks">Search</button>
         </div>
         <div class="add-btn">
