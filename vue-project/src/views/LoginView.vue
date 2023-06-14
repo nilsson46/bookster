@@ -19,19 +19,20 @@ export default defineComponent({
     },
     methods:{
         async handleLogin(){
+            // Cheks if the username and the password are filled in in the InputFields
             if (this.username.trim() === "" || this.password.trim() === "") {
                 console.error("Username and password are required");
                 return; // Guardian class always in the start or end of the code.
                     }
             
-            try{
+            try{ 
+                //Call the login function to do the login API request
                 const accessToken = await login(this.username, this.password)
+                // Set the token to localStorage
                 localStorage.setItem("accessToken", accessToken)
-
+                //Get the role from the token
                 const userRole = getUserRole();
-                
-                
-
+                // Redirects deppending on the role
                 if(userRole === "ADMIN") {
                     this.$router.push("/admin/books")
                     console.log(userRole);
@@ -39,7 +40,6 @@ export default defineComponent({
                     this.$router.push("/library/books")
                     console.log(userRole);
                 }
-                
                 console.log("Authentication succesfull")
             } catch(error: any) {
                 console.error("Authentication error:", error.message)
@@ -69,7 +69,6 @@ export default defineComponent({
         
     </div>
 </template>
-
 <style>
 #login-btn{
     margin-top: 1rem;

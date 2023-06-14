@@ -51,7 +51,8 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter();
-
+    //TODO Put this in a service? 
+    //Redirecting if user arent admin.
     if (!isAdmin()) {
       router.push('/library/books');
       console.log('Redirected to non-admin page');

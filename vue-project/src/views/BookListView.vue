@@ -54,8 +54,8 @@ export default defineComponent ({
         })
     }
 }
-
-        onMounted(showBooks)
+//Execute the showbooks when the component is mounted.
+onMounted(showBooks)
 
 
         return {

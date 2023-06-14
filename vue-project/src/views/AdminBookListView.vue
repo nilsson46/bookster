@@ -34,6 +34,8 @@ export default defineComponent ({
                     console.log(error)
                 })
         }
+
+        //Get the Books from the backend via a api call.
         const showBooks = () => {
       getBooks()
         .then((responseBooks) => {
