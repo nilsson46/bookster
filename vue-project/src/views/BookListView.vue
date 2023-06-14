@@ -1,28 +1,15 @@
-//TODO admin should  PUT /admin/books { "previous", "current" } Previous är en bok representerad med titel { "title" }
-Current är den nya boken representerad med den data som önskas uppdateras {"?title", "?author", "?quantity"}? = optional.
-Ger statuskod 201 när en bok har uppdaterats. 
-//TODO admin should DELETE /admin/books { "Title" }
-Ger statuskod 200 när en bok har tagits bort
-Ger statuskod 404 om boken inte hittades
-
-
-
 <script lang="ts">
 import { defineComponent, ref, onMounted} from 'vue';
 import type { Book } from "../components/BooksItem.vue"
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
-//import { getUserRole } from '@/components/TokenItem.vue';
-//import { useRouter } from "vue-router"
-import { searchBooks, getBooks } from '../service/bookservice';
+import { searchBooks, getBooks, orderBook } from '../service/bookservice';
 export default defineComponent ({
     components: {
-    //BooksItem,
     NavBarItem,
     InputFieldItem,
 },
     setup(){
-        //const router = useRouter();
         const books = ref<Book[]>([]);
         const searchInput = ref('');
         
@@ -45,6 +32,20 @@ export default defineComponent ({
           console.log(error);
         });
     };
+    const orderSelectedBook = (book: Book) => {
+        const quantity = book.orderQuantity;
+        if(quantity && quantity > 0) {
+            orderBook(book.title, quantity)
+            .then(() => {
+                book.orderQuantity = undefined;
+                showBooks();
+            })
+        .catch((error) => {
+            console.error("An error occured while ordering the book", error);
+            
+        })
+    }
+}
 
         onMounted(showBooks)
 
@@ -54,6 +55,7 @@ export default defineComponent ({
             showBooks,
             showSearchedBooks,
             searchInput,
+            orderSelectedBook,
         };
     }
 });
@@ -89,8 +91,10 @@ export default defineComponent ({
                         <td>{{ book.title }}</td>
                         <td>{{ book.author }}</td>
                         <td class="quantity">{{ book.quantity }}</td>
-                        <td></td>
-                    </tr>               
+                        <td> <input type="number" v-model="book.orderQuantity" min="1" />
+                            <button @click="orderSelectedBook(book)">Order</button></td>
+                       
+                         </tr>          
                  </tbody>
             </table>
             
@@ -98,7 +102,7 @@ export default defineComponent ({
     </div>
 </template>
 
-<style>
+<style scoped>
 input{
     height: 2rem;
     margin-bottom: 1rem;
