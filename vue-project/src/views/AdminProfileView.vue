@@ -16,12 +16,19 @@
                         <td> {{user.role }}</td>
                         <td>{{ countPurchases(user.purchases) }}</td>
                         <td>
-                            <button @click="promoteUser(user.username)">Promote</button>
-                            <button @click="deleteUser(user.username)">Delete</button>
+                          <button v-if="!isAdminRole(user)" @click="showPromoteModal(user)">Promote</button>
+                          <button @click="showDeleteModal(user)">Delete</button>
                         </td>
                     </tr>    
              </tbody>
         </table>
+        <ConfirmationModal
+      v-if="showModal"
+      :modalTitle="modalTitle"
+      :modalMessage="modalMessage"
+      @proceed="handleProceed"
+      @cancel="handleCancel"
+    ></ConfirmationModal>
     </div>
 </template>
 
@@ -30,6 +37,7 @@
 import { defineComponent } from 'vue';
 import NavBarItem from '@/components/NavBarItem.vue';
 import { getUsers, promoteUser as promoteUserRequest, deleteUser as deleteUserRequest } from '@/service/AdminService';
+import ConfirmationModal from '../components/ProccedModal.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { isAdmin } from '@/utils/isAdmin';
@@ -48,6 +56,8 @@ interface User {
 export default defineComponent({
   components: {
     NavBarItem,
+    ConfirmationModal
+    
   },
   setup() {
     const router = useRouter();
@@ -58,7 +68,15 @@ export default defineComponent({
       console.log('Redirected to non-admin page');
     }
 
+    const isAdminRole = (user: User): boolean => {
+      return user.role === 'ADMIN';
+    };
+
     const users = ref<User[]>([]);
+      const showModal = ref(false);
+    const modalTitle = ref('');
+    const modalMessage = ref('');
+    const userForAction = ref<User | null>(null);
 
     const fetchUsers = async () => {
       try {
@@ -102,6 +120,40 @@ export default defineComponent({
         console.error(`An error occurred while deleting user ${username}:`, error);
       }
     };
+
+    const showPromoteModal = (user: User): void => {
+      userForAction.value = user;
+      modalTitle.value = `Promote "${user.username}"`;
+      modalMessage.value = `Are you sure you want to promote "${user.username}"?`;
+      showModal.value = true;
+    };
+
+    const showDeleteModal = (user: User): void => {
+      userForAction.value = user;
+      modalTitle.value = `Delete "${user.username}"`;
+      modalMessage.value = `Are you sure you want to delete "${user.username}"?`;
+      showModal.value = true;
+    };
+
+    const handleProceed = (): void => {
+      if (modalTitle.value.startsWith('Promote')) {
+        if (userForAction.value) {
+          promoteUser(userForAction.value.username);
+        }
+      } else if (modalTitle.value.startsWith('Delete')) {
+        if (userForAction.value) {
+          deleteUser(userForAction.value.username);
+        }
+      }
+
+      showModal.value = false;
+      userForAction.value = null;
+    };
+
+    const handleCancel = (): void => {
+      showModal.value = false;
+      userForAction.value = null;
+    };
     onMounted(fetchUsers)
 
     return {
@@ -109,7 +161,15 @@ export default defineComponent({
          isAdmin,
          promoteUser,
          deleteUser,
-         countPurchases
+         countPurchases,
+         showModal,
+        modalTitle,
+        modalMessage,
+        showPromoteModal,
+        showDeleteModal,
+        handleProceed,
+        handleCancel,
+        isAdminRole
     };
   },
 });

@@ -63,11 +63,12 @@ export default defineComponent ({
     const showAddModal = () => {
         isAddModalVisible.value = true;
     }
-    const hideAddModal = () => {
+    /*const hideAddModal = () => {
         isAddModalVisible.value = false;
-    };
+    }; */
 
     const handleBookAdded = () => {
+        isAddModalVisible.value = false;
       showBooks();
     };
     
@@ -117,11 +118,12 @@ export default defineComponent ({
         <nav>
             <NavBarItem/>
         </nav>
+
+        //TODO should do a search everytime when the inputfield changes!
         <div class="search-field">
             <InputFieldItem
             v-model:value="searchInput"
             :placeholder="'Search for a book'"
-            @update:value="showSearchedBooks"
           />
             <button @click="showSearchedBooks">Search</button>
         </div>
@@ -153,10 +155,14 @@ export default defineComponent ({
                     </tr>               
                  </tbody>
             </table>
-            <add-book-modal :token="apiToken" @bookAdded="handleBookAdded" />
-        </div>
+            <div class="modal-overlay" v-if="isAddModalVisible">
+                <div class="modal-content">
+                  <add-book-modal :token="apiToken" @bookAdded="handleBookAdded" />
+                </div>
+              </div>
         
-    </div>
+</div>
+</div>
 </template>
 
 <style scoped>
@@ -186,5 +192,35 @@ thead{
 th, td{
     padding: 0.5rem;
     background-color: rgb(183, 247, 247);
+} 
+
+
+.books-page {
+  position: relative;
 }
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+}
+
+.books-list {
+  position: relative;
+  z-index: 1;
+  margin-top: 2rem;
+}
+
 </style>

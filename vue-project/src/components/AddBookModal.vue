@@ -7,6 +7,8 @@
           <InputFieldItem :value="author" @update:value="author = $event" type="text" placeholder="Author" required/>
           <InputFieldItem :value="quantity" @update:value="quantity = $event" type="number" placeholder="Quantity" required/>
           <button type="submit">Add Book</button>
+          <button @click="hideModal">Close</button>
+
         </form>
       </div>
     </div>
@@ -34,6 +36,9 @@
       };
     },
     methods: {
+      hideModal() {
+      this.$emit('close');
+    },
     addNewBook() {
       const newBook = {
         title: this.title,

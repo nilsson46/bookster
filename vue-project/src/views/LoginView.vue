@@ -24,7 +24,7 @@ export default defineComponent({
                 console.error("Username and password are required");
                 return; // Guardian class always in the start or end of the code.
                     }
-            
+            //TODO Move this to isAdmin! 
             try{ 
                 //Call the login function to do the login API request
                 const accessToken = await login(this.username, this.password)
@@ -36,8 +36,10 @@ export default defineComponent({
                 if(userRole === "ADMIN") {
                     this.$router.push("/admin/books")
                     console.log(userRole);
+                } else if (userRole === "USER") {
+                this.$router.push("/library/books");
+                console.log(userRole);
                 } else{
-                    this.$router.push("/library/books")
                     console.log(userRole);
                 }
                 console.log("Authentication succesfull")
@@ -46,7 +48,10 @@ export default defineComponent({
             }
         
             
-        }
+        },
+        proceedAsGuest() {
+        this.$router.push("/guest/books");
+  },
     },
     
 });
@@ -63,7 +68,7 @@ export default defineComponent({
                 <InputFieldItem v-model:value="password" type="password" placeholder="Password..."/>
                 <p>No account? Sign up <a href="http://localhost:5173/auth/register">here!</a></p>
                 <button class="form-btn" id="login-btn" type="submit">Login</button>
-                <button class="form-btn" id="proceed-as-guest-btn">Proceed as guest user</button>
+                <button class="form-btn" id="proceed-as-guest-btn" @click="proceedAsGuest">Proceed as guest user</button>
             </form>
         </div>
         
