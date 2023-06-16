@@ -1,6 +1,17 @@
-import { getUserRole } from '@/components/TokenItem.vue';
+export const ROLE_ADMIN = "ADMIN";
 
-export const isAdmin = (): boolean => {
-  const userRole = getUserRole();
-  return userRole === "ADMIN";
-};
+export function getUserRole(): string | null {
+  const token = localStorage.getItem("accessToken");
+
+  if (token) {
+    const splittedToken = token.split('.')
+    const decodedToken = atob(splittedToken[1]);
+    const payload = JSON.parse(decodedToken);
+    return payload.role;
+  } else {
+    console.log("Token not found in localStorage");
+    return null;
+  }
+}
+
+export const isAdmin = () => getUserRole() === ROLE_ADMIN;

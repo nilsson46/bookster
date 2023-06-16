@@ -1,39 +1,39 @@
 <template>
-    <div class="modal">
-        <div class="modal-content">
-            <h3>{{ modalTitle }}</h3>
-            <p>{{ modalMessage }}</p>
-            <div class="modal-buttons">
-                <button @click="proceed">Proceed</button>
-                <button @click="cancel">Cancel</button>
-            </div>
-        </div>
+  <div class="modal">
+    <div class="modal-content">
+      <h3>{{ modalTitle }}</h3>
+      <p>{{ modalMessage }}</p>
+      <div class="modal-buttons">
+        <button @click="proceed">Proceed</button>
+        <button @click="cancel">Cancel</button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
-    props:{
-        modalTitle: {
-            type: String,
-            required: true
-        },
-        modalMessage: {
-            type: String,
-            required: true
-        }
+  props: {
+    modalTitle: {
+      type: String,
+      required: true
     },
-    methods:{
-        proceed(): void{
-            this.$emit('proceed');
-        },
-        cancel(): void{
-            this.$emit('cancel');
-        }
+    modalMessage: {
+      type: String,
+      required: true
     }
-});
+  },
+  methods: {
+    proceed(): void {
+      this.$emit('proceed')
+    },
+    cancel(): void {
+      this.$emit('cancel')
+    }
+  }
+})
 </script>
 
 <style scoped>
