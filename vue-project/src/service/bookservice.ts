@@ -1,6 +1,6 @@
 
-import axios, { AxiosRequestConfig } from "axios";
-import type { Book } from "../components/BooksItem.vue"
+import axios, { type AxiosRequestConfig } from "axios";
+import type { Book } from "@/model/book";
 
 export async function searchBooks(inputValue: string): Promise<Book[]> { 
     const query = inputValue.trim().toLocaleLowerCase();

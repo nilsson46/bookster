@@ -41,17 +41,10 @@ import ConfirmationModal from '../components/ProccedModal.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { isAdmin } from '@/utils/isAdmin';
+import type { User } from '@/model/user';
 
 
-interface User {
-  username: string;
-  role: string;
-  purchases?: {
-    title: string;
-    author: string;
-    quantity: string;
-  }[];
-}
+
 
 export default defineComponent({
   components: {

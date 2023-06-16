@@ -19,6 +19,9 @@ export default defineComponent({
         placeholder: {
             default: "",
         },
+        updateValue:{
+            default: undefined,
+        }
     },
 
     methods:{

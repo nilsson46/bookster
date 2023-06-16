@@ -9,13 +9,7 @@
 <script lang="ts">
 import {defineComponent} from 'vue';
 import type { PropType} from 'vue';
-
-export interface Book{
-    title: string;
-    author: string; 
-    quantity: number;
-    orderQuantity?: number;
-}
+import type { Book } from '@/model/book';
 
 export default defineComponent ({
     props:{

@@ -1,9 +1,8 @@
 <script lang="ts">
 import { defineComponent, ref, onMounted} from 'vue';
-import type { Book } from "../components/BooksItem.vue"
+import type { Book } from '@/model/book';
 import NavBarItem from '@/components/NavBarItem.vue';
 import InputFieldItem from '@/components/InputFieldItem.vue';
-import { getUserRole } from '@/components/TokenItem.vue';
 import { isAdmin } from '@/utils/isAdmin';
 import { useRouter } from "vue-router"
 import { searchBooks, getBooks, deleteBook, orderBook } from '../service/bookservice';
@@ -119,13 +118,13 @@ export default defineComponent ({
             <NavBarItem/>
         </nav>
 
-        //TODO should do a search everytime when the inputfield changes!
+        
         <div class="search-field">
             <InputFieldItem
             v-model:value="searchInput"
             :placeholder="'Search for a book'"
+            @update:value="showSearchedBooks"
           />
-            <button @click="showSearchedBooks">Search</button>
         </div>
         <div class="add-btn">
             <button @click="showAddModal">Add new book</button>
