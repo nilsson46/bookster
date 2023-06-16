@@ -3,7 +3,6 @@ import axios, { type AxiosRequestConfig } from 'axios';
 export async function getUsers() {
   const token = localStorage.getItem("accessToken");
   if (token) {
-    console.log("Token i alla fall");
 
     const headers: AxiosRequestConfig["headers"] = {
       "Authorization": `Bearer ${token}`

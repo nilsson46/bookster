@@ -114,16 +114,18 @@ export default defineComponent({
     <nav>
       <NavBarItem />
     </nav>
+    <div class="extra-nav">
+      <div class="search-field">
+        <InputFieldItem
+          v-model:value="searchInput"
+          :placeholder="'Search for a book'"
+          @update:value="showSearchedBooks"
+        />
+      </div>
 
-    <div class="search-field">
-      <InputFieldItem
-        v-model:value="searchInput"
-        :placeholder="'Search for a book'"
-        @update:value="showSearchedBooks"
-      />
-    </div>
-    <div class="add-btn">
-      <button @click="showAddModal">Add new book</button>
+      
+        <button class="add-btn" @click="showAddModal">Add new book</button>
+      
     </div>
     <div>
       <table>
@@ -141,8 +143,8 @@ export default defineComponent({
             <td>{{ book.title }}</td>
             <td>{{ book.author }}</td>
             <td class="quantity">{{ book.quantity }}</td>
-            <td>
-              <input type="number" v-model="book.orderQuantity" min="1" />
+            <td class="order-column">
+              <input class="order-input" type="number" v-model="book.orderQuantity" min="1" />
               <button @click="orderSelectedBook(book)">Order</button>
             </td>
             <td>
@@ -162,15 +164,23 @@ export default defineComponent({
 </template>
 
 <style scoped>
-input {
-  height: 2rem;
-  margin-bottom: 1rem;
-  margin-top: 1rem;
+
+.order-input {
+  width: 50%;
+  margin-right: 0.5rem;
+}
+.extra-nav {
+  margin-left: 4.2rem;
 }
 
-.search-field {
-  width: 10rem;
-  margin-left: 5rem;
+.search-field{
+    width: 15rem;
+}
+.add-btn{
+    margin-top:0.5rem;
+    margin-bottom: 0.5rem;
+    width: 7.5rem;
+    height: 1.5rem;
 }
 
 table {
@@ -180,19 +190,16 @@ table {
 }
 
 thead {
-  background-color: lightblue;
+  background-color: rgb(17, 17, 17);
   width: 100%;
 }
 
-.quantity {
-  display: flex;
-  justify-content: center;
+th {
+  background-color: rgb(138, 179, 246);
 }
-
-th,
 td {
   padding: 0.5rem;
-  background-color: rgb(183, 247, 247);
+  background-color: rgb(159, 192, 244);
 }
 
 .books-page {

@@ -56,19 +56,41 @@ export default defineComponent({
     <nav>
       <NavBarItem />
     </nav>
+    <div class="form-field">
     <form @submit.prevent="handleRegister">
+        <h1>Register</h1>
       <InputFieldItem v-model:value="username" placeholder="Username" type="text" />
       <InputFieldItem v-model:value="password" placeholder="Password" type="password" />
       <button id="register-btn" type="submit">Register</button>
+    
     </form>
+    </div>
   </div>
 </template>
 
 <style scoped>
-div {
-  background-color: rgb(218, 170, 170);
-}
+
 #register-btn {
   margin-top: 1rem;
+  width: 161px;
+  height: 1.5rem;
+  margin: 1rem;
+
+}
+.form-field{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+form{
+    margin: 10rem;
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: rgb(159, 192, 244);
+    border-radius: 0.2rem;
 }
 </style>

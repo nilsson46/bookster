@@ -58,9 +58,13 @@ export default defineComponent({
     <div class="form">
       <form class="login-form" @submit.prevent="handleLogin">
         <h1>Login</h1>
-        <InputFieldItem v-model:value="username" type="text" placeholder="Username..." />
-        <InputFieldItem v-model:value="password" type="password" placeholder="Password..." />
-        <p>No account? Sign up <a href="http://localhost:5173/auth/register">here!</a></p>
+        <div class="input-form">
+            <div class="field-arround-input">
+                <InputFieldItem class="input-field" v-model:value="username" type="text" placeholder="Username..." />
+                <InputFieldItem class="input-field" v-model:value="password" type="password" placeholder="Password..." />
+            </div>
+            <p>No account? Sign up <a href="http://localhost:5173/auth/register">here!</a></p>
+        </div>
         <button class="form-btn" id="login-btn" type="submit">Login</button>
         <button class="form-btn" id="proceed-as-guest-btn" @click="proceedAsGuest">
           Proceed as guest user
@@ -70,12 +74,17 @@ export default defineComponent({
   </div>
 </template>
 <style>
+
 #login-btn {
   margin-top: 1rem;
+
 }
 .form-btn {
-  width: 100%;
+ padding: 0.5rem;
+ width: 50%;
   margin-top: 1rem;
+  background-color: rgb(247, 247, 215);
+  border-radius: 0.2rem;
 }
 .form {
   display: flex;
@@ -88,8 +97,31 @@ export default defineComponent({
   flex-direction: column;
   align-items: center;
   margin: 10rem;
-  background-color: lightblue;
+  background-color: rgb(159, 192, 244);
   width: 400px;
   padding: 1rem;
+  border-radius: 0.3rem;
 }
+.input-form{
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+
+}
+input{
+    width: 90%;
+    padding: 0.5rem;
+    margin-top: 1rem;
+    border-radius: 0.2rem;
+    border: solid 1.5px rgba(0, 0, 0, 0.551);
+}
+.field-arround-input{
+    width:100%;
+}
+p{
+    font-size: 18px;
+}
+
 </style>
