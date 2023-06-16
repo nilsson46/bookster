@@ -1,3 +1,7 @@
+/**
+* A view component that shows all books to a guest. 
+*/
+
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import type { Book } from '../model/book'

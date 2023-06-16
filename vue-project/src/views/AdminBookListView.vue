@@ -1,3 +1,6 @@
+/** * A view component that are shown to admins including the booklist so they can order, add,
+delete or edit a book. */
+
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import type { Book } from '@/model/book'
@@ -60,14 +63,11 @@ export default defineComponent({
     const showAddModal = () => {
       isAddModalVisible.value = true
     }
-    /*const hideAddModal = () => {
-            isAddModalVisible.value = false;
-        }; */
 
     const handleBookAdded = () => {
-      isAddModalVisible.value = false
-      showBooks()
-    }
+  showBooks()
+  isAddModalVisible.value = false
+}
 
     //Check so the title matches and remove the book or books from the array with the same title.
     const deleteSelectedBook = (book: Book) => {
@@ -123,9 +123,7 @@ export default defineComponent({
         />
       </div>
 
-      
-        <button class="add-btn" @click="showAddModal">Add new book</button>
-      
+      <button class="add-btn" @click="showAddModal">Add new book</button>
     </div>
     <div>
       <table>
@@ -156,7 +154,11 @@ export default defineComponent({
       </table>
       <div class="modal-overlay" v-if="isAddModalVisible">
         <div class="modal-content">
-          <add-book-modal :token="apiToken" @bookAdded="handleBookAdded" />
+          <add-book-modal
+            :token="apiToken"
+            @bookAdded="handleBookAdded"
+            @close="handleBookAdded"
+          />
         </div>
       </div>
     </div>
@@ -164,7 +166,6 @@ export default defineComponent({
 </template>
 
 <style scoped>
-
 .order-input {
   width: 50%;
   margin-right: 0.5rem;
@@ -173,14 +174,14 @@ export default defineComponent({
   margin-left: 4.2rem;
 }
 
-.search-field{
-    width: 15rem;
+.search-field {
+  width: 15rem;
 }
-.add-btn{
-    margin-top:0.5rem;
-    margin-bottom: 0.5rem;
-    width: 7.5rem;
-    height: 1.5rem;
+.add-btn {
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  width: 7.5rem;
+  height: 1.5rem;
 }
 
 table {

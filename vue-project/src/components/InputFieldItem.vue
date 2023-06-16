@@ -1,8 +1,6 @@
-<template>
-  <div>
-    <input :type="type" :value="value" @input="handleInput($event)" :placeholder="placeholder" />
-  </div>
-</template>
+/**
+*This is base inputfield component that are reusable
+*/
 
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -34,4 +32,8 @@ export default defineComponent({
 })
 </script>
 
-<style scoped></style>
+<template>
+    <div>
+      <input :type="type" :value="value" @input="handleInput($event)" :placeholder="placeholder" />
+    </div>
+  </template>

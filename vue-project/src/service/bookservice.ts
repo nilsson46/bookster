@@ -1,4 +1,6 @@
-
+/**
+ * Api request for books
+ */
 import axios, { type AxiosRequestConfig } from "axios";
 import type { Book } from "@/model/book";
 
@@ -62,31 +64,26 @@ export function editBook(previousTitle: string, updatedBook: Book): Promise<void
   }
 }
 
-export async function addBook(newBook: any): Promise<void> {
-  const token = localStorage.getItem("accessToken");
 
-  if (token) {
-    const headers: AxiosRequestConfig["headers"] = {
-      "Authorization": `Bearer ${token}`,
-      "Content-Type": "application/json"
-    };
+export async function addBook(newBook: any, token: string): Promise<void> {
+  const headers: AxiosRequestConfig["headers"] = {
+    "Authorization": `Bearer ${token}`,
+    "Content-Type": "application/json"
+  };
 
-    const requestOptions: AxiosRequestConfig = {
-      method: "POST",
-      url: "/admin/books",
-      headers: headers,
-      data: newBook
-    };
+  const requestOptions: AxiosRequestConfig = {
+    method: "POST",
+    url: "http://localhost:3000/admin/books",
+    headers: headers,
+    data: newBook
+  };
 
-    try {
-      await axios(requestOptions);
-      console.log("Book added successfully");
-    } catch (error) {
-      console.error("An error occurred while adding the book", error);
-      throw error;
-    }
-  } else {
-    console.log("Token not found in localStorage");
+  try {
+    await axios(requestOptions);
+    console.log("Book added successfully");
+  } catch (error) {
+    console.error("An error occurred while adding the book", error);
+    throw error;
   }
 }
 

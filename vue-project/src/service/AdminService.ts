@@ -1,3 +1,7 @@
+/**
+ * Here is all the user requests for a admin. 
+ */
+
 import axios, { type AxiosRequestConfig } from 'axios';
 
 export async function getUsers() {

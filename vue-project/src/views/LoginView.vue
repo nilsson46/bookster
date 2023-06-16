@@ -1,3 +1,7 @@
+/**
+* A view component that makes it possible for a user to login to use my amazing website
+*/
+
 <script lang="ts">
 import { defineComponent } from 'vue'
 import InputFieldItem from '@/components/InputFieldItem.vue'

@@ -1,48 +1,8 @@
-<template>
-  <div>
-    <NavBarItem></NavBarItem>
-    <div class="content">
-      <table>
-        <thead>
-          <tr>
-            <th>Username</th>
-            <th>Role</th>
-            <th>Purchases</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="user in users" :key="user.username">
-            <td>{{ user.username }}</td>
-            <td>{{ user.role }}</td>
-            <td>{{ countPurchases(user.purchases) }}</td>
-            <td>
-              <button v-if="user.role === 'USER'" @click="showPromoteModal(user)">Promote</button>
-              <button @click="showDeleteModal(user)">Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-      <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
-      <ConfirmationModal
-        v-if="showModal"
-        :modalTitle="modalTitle"
-        :modalMessage="modalMessage"
-        @proceed="handleProceed"
-        @cancel="handleCancel"
-      ></ConfirmationModal>
-    </div>
-  </div>
-</template>
+/**
+* A view component for admins that shows all user and make it possible to promote or delete a user.
+*/
 
-<style scoped>
-.content{
-  display: flex;
-  justify-content: center;
-  margin-top:10rem;
-}
-</style>
+
 
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -175,3 +135,49 @@ export default defineComponent({
   }
 })
 </script>
+
+<template>
+  <div>
+    <NavBarItem></NavBarItem>
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Purchases</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.username">
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ countPurchases(user.purchases) }}</td>
+            <td>
+              <button v-if="user.role === 'USER'" @click="showPromoteModal(user)">Promote</button>
+              <button @click="showDeleteModal(user)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+      <ConfirmationModal
+        v-if="showModal"
+        :modalTitle="modalTitle"
+        :modalMessage="modalMessage"
+        @proceed="handleProceed"
+        @cancel="handleCancel"
+      ></ConfirmationModal>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.content{
+  display: flex;
+  justify-content: center;
+  margin-top:10rem;
+}
+</style>

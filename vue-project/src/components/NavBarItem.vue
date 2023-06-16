@@ -1,14 +1,6 @@
-<template>
-  <div>
-    <a href="http://localhost:5173/">Home</a>
-    <a href="http://localhost:5173/auth/login">Login</a>
-    <a href="http://localhost:5173/auth/register">Register</a>
-    <a href="http://localhost:5173/library/books">Booklist</a>
-    <a href="http://localhost:5173/admin/users">Profile</a>
-    
-    <button @click="handleLogout">Logout</button>
-  </div>
-</template>
+/**
+*A navbar that make it easy to check some endpoints. Use it on all the view pages.
+*/
 <script lang="ts">
 export default {
   methods: {
@@ -20,6 +12,17 @@ export default {
 }
 </script>
 
+<template>
+    <div>
+      <a href="http://localhost:5173/">Home</a>
+      <a href="http://localhost:5173/auth/login">Login</a>
+      <a href="http://localhost:5173/auth/register">Register</a>
+      <a href="http://localhost:5173/library/books">Booklist</a>
+      <a href="http://localhost:5173/admin/users">Profile</a>
+      
+      <button @click="handleLogout">Logout</button>
+    </div>
+  </template>
 <style scoped>
 div {
   background-color: rgb(166, 197, 247);

@@ -1,15 +1,6 @@
-<template>
-  <div class="modal">
-    <div class="modal-content">
-      <h3>{{ modalTitle }}</h3>
-      <p>{{ modalMessage }}</p>
-      <div class="modal-buttons">
-        <button @click="proceed">Proceed</button>
-        <button @click="cancel">Cancel</button>
-      </div>
-    </div>
-  </div>
-</template>
+/**
+* This modal pops up when a admin press delete or promote and checks so they want to execute either of them.
+*/
 
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -35,6 +26,19 @@ export default defineComponent({
   }
 })
 </script>
+
+<template>
+  <div class="modal">
+    <div class="modal-content">
+      <h3>{{ modalTitle }}</h3>
+      <p>{{ modalMessage }}</p>
+      <div class="modal-buttons">
+        <button @click="proceed">Proceed</button>
+        <button @click="cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+</template>
 
 <style scoped>
 .modal {

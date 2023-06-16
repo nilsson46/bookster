@@ -1,19 +1,6 @@
-<template>
-  <div v-if="isEditModalVisible" class="modal">
-    <div class="modal-background" @click="closeModal"></div>
-    <div class="modal-content">
-      <h2>Edit Book</h2>
-      <InputFieldItem v-model="editedBook.title" />
-      <InputFieldItem v-model="editedBook.author" />
-      <InputFieldItem v-model="editedBook.quantity" />
-      <div class="modal-actions">
-        <button @click="saveBook">Save</button>
-        <button @click="closeModal">Close</button>
-      </div>
-    </div>
-  </div>
-  <!-- Rest of your component template -->
-</template>
+/** 
+*This should work when the edit button are clicked but doesnt work yet. 
+*/
 
 <script lang="ts">
 import InputFieldItem from '@/components/InputFieldItem.vue'
@@ -70,6 +57,23 @@ export default {
   }
 }
 </script>
+
+<template>
+  <div v-if="isEditModalVisible" class="modal">
+    <div class="modal-background" @click="closeModal"></div>
+    <div class="modal-content">
+      <h2>Edit Book</h2>
+      <InputFieldItem v-model="editedBook.title" />
+      <InputFieldItem v-model="editedBook.author" />
+      <InputFieldItem v-model="editedBook.quantity" />
+      <div class="modal-actions">
+        <button @click="saveBook">Save</button>
+        <button @click="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+  <!-- Rest of your component template -->
+</template>
 
 <style>
 .modal {

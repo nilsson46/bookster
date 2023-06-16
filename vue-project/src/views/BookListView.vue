@@ -1,3 +1,8 @@
+/**
+*A view component that show the books to the ordinarie user and make it possible to order a book. 
+*/
+
+
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import type { Book } from '../model/book'

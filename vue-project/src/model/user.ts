@@ -1,3 +1,7 @@
+/**
+ * A interface to present a user 
+ */
+
 export interface User {
     username: string;
     role: string;
