@@ -1,3 +1,7 @@
+/**
+ * Taking care of the token and checks if the user is admin or not.
+ */
+
 export const ROLE_ADMIN = "ADMIN";
 
 export function getUserRole(): string | null {

@@ -1,3 +1,46 @@
+/**
+* A modal that pops up when a admin click the "Add new book" and then admin are able to add a book. 
+*
+*/
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+import InputFieldItem from './InputFieldItem.vue'
+import { addBook } from '@/service/bookservice'
+export default defineComponent({
+  components: {
+    InputFieldItem
+  },
+  props: {
+    token: {
+      type: String,
+      required: true
+    }
+  },
+  data() {
+    return {
+      title: '',
+      author: '',
+      quantity: 0
+    }
+  },
+  methods: {
+    hideModal() {
+      this.$emit('close')
+    },
+    addNewBook() {
+      const newBook = {
+        title: this.title,
+        author: this.author,
+        quantity: this.quantity
+      }
+     
+      addBook(newBook, this.token)
+            this.$emit('bookAdded')
+    }
+  }
+})
+</script>
 <template>
   <div class="modal">
     <div class="modal-content">
@@ -31,66 +74,3 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import axios from 'axios'
-import InputFieldItem from './InputFieldItem.vue'
-export default defineComponent({
-  components: {
-    InputFieldItem
-  },
-  props: {
-    token: {
-      type: String,
-      required: true
-    }
-  },
-  data() {
-    return {
-      title: '',
-      author: '',
-      quantity: 0
-    }
-  },
-  methods: {
-    hideModal() {
-      this.$emit('close')
-    },
-    addNewBook() {
-      const newBook = {
-        title: this.title,
-        author: this.author,
-        quantity: this.quantity
-      }
-      //TODO move to service!
-      const headers = {
-        Authorization: `Bearer ${this.token}`,
-        'Content-Type': 'application/json'
-      }
-      console.log('New book:', newBook)
-      console.log('Headers:', headers)
-      axios
-
-        .post('http://localhost:3000/admin/books', newBook, { headers })
-        .then((response) => {
-          if (response.status === 201) {
-            // Book successfully added
-            console.log('Book added successfully')
-            // Emit an event to notify the parent component that a new book is added
-            this.$emit('bookAdded')
-          } else {
-            console.log('Error adding the book')
-          }
-        })
-        .catch((error) => {
-          // Handle any network or other errors
-          console.error('An error occurred while adding the book', error)
-        })
-    }
-  }
-})
-</script>
-
-<style>
-/* Add your modal styles here */
-</style>

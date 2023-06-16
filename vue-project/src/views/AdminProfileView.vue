@@ -1,36 +1,8 @@
-<template>
-  <div>
-    <NavBarItem></NavBarItem>
-    <table>
-      <thead>
-        <tr>
-          <th>Username</th>
-          <th>Role</th>
-          <th>Purchases</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="user in users" :key="user.username">
-          <td>{{ user.username }}</td>
-          <td>{{ user.role }}</td>
-          <td>{{ countPurchases(user.purchases) }}</td>
-          <td>
-            <button v-if="!isAdminRole(user)" @click="showPromoteModal(user)">Promote</button>
-            <button @click="showDeleteModal(user)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <ConfirmationModal
-      v-if="showModal"
-      :modalTitle="modalTitle"
-      :modalMessage="modalMessage"
-      @proceed="handleProceed"
-      @cancel="handleCancel"
-    ></ConfirmationModal>
-  </div>
-</template>
+/**
+* A view component for admins that shows all user and make it possible to promote or delete a user.
+*/
+
+
 
 <script lang="ts">
 import { defineComponent } from 'vue'
@@ -59,16 +31,15 @@ export default defineComponent({
     const modalTitle = ref('')
     const modalMessage = ref('')
     const userForAction = ref<User | null>(null)
+    const errorMessage = ref('')
+    const successMessage = ref('')
 
     const fetchUsers = async () => {
       try {
-        console.log('Sending request to retrieve users...')
         const response = await getUsers()
-        console.log('Users retrieved successfully:', response)
         users.value = response.users
-        console.log('Users set in component:', users.value)
       } catch (error) {
-        console.error('An error occurred while retrieving users:', error)
+        errorMessage.value = 'An error occurred while retrieving users: ' + error
       }
     }
 
@@ -81,25 +52,25 @@ export default defineComponent({
 
     const promoteUser = async (username: string) => {
       try {
-        console.log(`Promoting user: ${username}`)
+        successMessage.value = `Promoting user: ${username}`
         await promoteUserRequest(username)
-        console.log(`User ${username} promoted successfully`)
+        successMessage.value = `User ${username} promoted successfully`
 
         await fetchUsers()
       } catch (error) {
-        console.error(`An error occurred while promoting user ${username}:`, error)
+        ;(errorMessage.value = `An error occurred while promoting user ${username}:`), error
       }
     }
 
     const deleteUser = async (username: string) => {
       try {
-        console.log(`Deleting user: ${username}`)
+        successMessage.value = `Deleting user: ${username}`
         await deleteUserRequest(username)
-        console.log(`User ${username} promoted successfully`)
+        successMessage.value = `User ${username} deleted successfully`
 
         await fetchUsers()
       } catch (error) {
-        console.error(`An error occurred while deleting user ${username}:`, error)
+        errorMessage.value = `An error occurred while deleting user ${username}: ${error}`
       }
     }
 
@@ -158,8 +129,55 @@ export default defineComponent({
       showDeleteModal,
       handleProceed,
       handleCancel,
-      isAdminRole
+      errorMessage,
+      successMessage
     }
   }
 })
 </script>
+
+<template>
+  <div>
+    <NavBarItem></NavBarItem>
+    <div class="content">
+      <table>
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Role</th>
+            <th>Purchases</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="user in users" :key="user.username">
+            <td>{{ user.username }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ countPurchases(user.purchases) }}</td>
+            <td>
+              <button v-if="user.role === 'USER'" @click="showPromoteModal(user)">Promote</button>
+              <button @click="showDeleteModal(user)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
+      <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+      <ConfirmationModal
+        v-if="showModal"
+        :modalTitle="modalTitle"
+        :modalMessage="modalMessage"
+        @proceed="handleProceed"
+        @cancel="handleCancel"
+      ></ConfirmationModal>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.content{
+  display: flex;
+  justify-content: center;
+  margin-top:10rem;
+}
+</style>

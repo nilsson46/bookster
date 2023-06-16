@@ -1,3 +1,8 @@
+/**
+*A view component that show the books to the ordinarie user and make it possible to order a book. 
+*/
+
+
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import type { Book } from '../model/book'
@@ -72,6 +77,9 @@ export default defineComponent({
     <nav>
       <NavBarItem />
     </nav>
+
+    <div class="content">
+        
     <div class="search-field">
       <InputFieldItem
         v-model:value="searchInput"
@@ -102,6 +110,7 @@ export default defineComponent({
         </tbody>
       </table>
     </div>
+    </div>
   </div>
 </template>
 
@@ -111,8 +120,17 @@ export default defineComponent({
   justify-content: center;
 }
 
+.content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.search-field{
+    width: 20%;
+}
 td,
 th {
-  background-color: rgb(179, 242, 242);
+    background-color: rgb(159, 192, 244);
 }
 </style>

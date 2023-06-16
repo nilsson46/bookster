@@ -1,3 +1,7 @@
+/**
+* A view component that shows all books to a guest. 
+*/
+
 <script lang="ts">
 import { defineComponent, ref, onMounted } from 'vue'
 import type { Book } from '../model/book'
@@ -105,10 +109,16 @@ export default defineComponent({
   display: flex;
   justify-content: center;
 }
-
+.search-field{
+    width: 15rem;
+    display: flex;
+  justify-content: center;
+  margin-left: 16.5rem;
+  margin-bottom: 1rem;
+}
 td,
 th {
-  background-color: rgb(179, 242, 242);
+  background-color: rgb(159, 192, 244);
   height: 2rem;
 }
 </style>
