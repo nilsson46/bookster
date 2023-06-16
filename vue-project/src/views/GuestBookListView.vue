@@ -86,7 +86,6 @@ export default defineComponent({
             <th>Title</th>
             <th>Author</th>
             <th>Availability</th>
-            <th>Order</th>
           </tr>
         </thead>
         <tbody>
@@ -94,10 +93,6 @@ export default defineComponent({
             <td>{{ book.title }}</td>
             <td>{{ book.author }}</td>
             <td class="quantity">{{ book.quantity }}</td>
-            <td>
-              <input type="number" v-model="book.orderQuantity" min="1" />
-              <button @click="orderSelectedBook(book)">Order</button>
-            </td>
           </tr>
         </tbody>
       </table>
@@ -105,7 +100,7 @@ export default defineComponent({
   </div>
 </template>
 
-<style scoped>
+<style>
 .book-table {
   display: flex;
   justify-content: center;
@@ -114,5 +109,6 @@ export default defineComponent({
 td,
 th {
   background-color: rgb(179, 242, 242);
+  height: 2rem;
 }
 </style>
